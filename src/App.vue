@@ -2,11 +2,13 @@
   <div id="main">
     <Header />
     <Waterfall />
+    <Message />
   </div>
 </template>
 
 <script lang="ts" setup>
 import Header from './components/Header.vue'
+import Message from './components/Message.vue'
 import Waterfall from './components/Waterfall.vue'
 </script>
 
