@@ -14,8 +14,10 @@ import Waterfall from './components/Waterfall.vue'
 
 <style lang="stylus" scoped>
 #main
-  margin 20px 10px
+  display flex
+  flex-direction column
+  margin 0 10px
   width calc(100vw - 20px)
   max-width 1280px
-  min-height 100vh
+  height 100vh
 </style>

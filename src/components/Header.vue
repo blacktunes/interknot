@@ -30,11 +30,15 @@
 
 <style lang="stylus" scoped>
 .header
+  z-index 9
+  position sticky
+  top 0
+  background #000
   display flex
   align-items center
   height 50px
   color #404040
-  margin-bottom 10px
+  padding 10px 0
 
   .avatar
     width 40px
