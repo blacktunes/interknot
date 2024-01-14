@@ -6,7 +6,7 @@
     <div class="message-box">
       <div class="header">
         <div class="user">
-          <div class="avatar"></div>
+          <Avatar />
           <div class="name">
             <span>这是名字</span>
             <div></div>
@@ -32,18 +32,71 @@
       </div>
       <div class="content">
         <div class="content-image"></div>
-        <div class="content-message"></div>
+        <div class="content-message">
+          <div class="title">[潜水]</div>
+          <div class="text">
+            这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容
+          </div>
+          <div class="comment-list">
+            <div class="comment">
+              <Avatar class="comment-avatar" />
+              <div class="comment-content">
+                <div class="comment-name">
+                  <span> 这是名字 </span>
+                  <div class="floor">1F</div>
+                </div>
+                <div class="comment-text">这是回复</div>
+              </div>
+            </div>
+            <div class="comment">
+              <Avatar class="comment-avatar" />
+              <div class="comment-content">
+                <div class="comment-name">
+                  <span> 这是名字 </span>
+                  <div class="floor">2F</div>
+                </div>
+                <div class="comment-text">这是回复</div>
+              </div>
+            </div>
+            <div class="comment">
+              <Avatar class="comment-avatar" />
+              <div class="comment-content">
+                <div class="comment-name">
+                  <span> 这是名字 </span>
+                  <div class="floor">3F</div>
+                </div>
+                <div class="comment-text">
+                  这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <Avatar class="comment-avatar" />
+              <div class="comment-content">
+                <div class="comment-name">
+                  <span> 这是名字 </span>
+                  <div class="floor">4F</div>
+                </div>
+                <div class="comment-text">
+                  这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import Avatar from './Common/Avatar.vue'
 import { setting } from '@/store/setting'
 </script>
 
 <style lang="stylus" scoped>
 .message
+  z-index 10
   position fixed
   top 0
   left 0
@@ -107,14 +160,6 @@ import { setting } from '@/store/setting'
         display flex
         align-items center
 
-        .avatar
-          box-sizing border-box
-          width 50px
-          height 50px
-          border-radius 50%
-          border 3px solid rgba(0, 0, 0, 0.5)
-          background-color #a1a0a1
-
         .name
           display flex
           flex-direction column
@@ -155,11 +200,62 @@ import { setting } from '@/store/setting'
         border 4px solid rgba(100, 100, 100, 0.5)
 
       .content-message
+        overflow-x hidden
+        overflow-y scroll
         flex 1
+        box-sizing border-box
         width 100%
+        padding 20px 10px 20px 30px
         margin-left 20px
         border-radius 20px
         background #000
+
+        .title
+          margin-bottom 10px
+          color #fff
+
+        .text
+          color #b2b0b3
+          margin-bottom 30px
+
+        .comment
+          display flex
+          margin-top 5px
+
+          .comment-avatar
+            width 42px
+            height 42px
+
+          .comment-content
+            flex 1
+            margin 0 10px
+            padding-bottom 10px
+            border-bottom 4px solid #1e1c1f
+
+            .comment-name
+              display flex
+              align-items center
+              justify-content space-between
+              margin-bottom 5px
+
+              span
+                color #fff
+
+            .floor
+              display flex
+              justify-content center
+              align-items center
+              height 20px
+              padding 0 12px 0 10px
+              color #000
+              font-family none
+              font-size 16px
+              font-weight bold
+              background-color #615f62
+              border-radius 0 10px 10px 10px
+
+            .comment-text
+              color #959295
 
 @media screen and (min-width 500px) and (max-width 1000px)
   .message
@@ -193,7 +289,6 @@ import { setting } from '@/store/setting'
           flex unset
           flex-shrink 0
           width 100%
-          height 500px
           margin-top 20px
           margin-left unset
 </style>
