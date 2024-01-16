@@ -6,9 +6,10 @@
       class="waterfall"
     >
       <Card
-        v-for="(_, index) in list"
+        v-for="(item, index) in message.list"
+        :message="item"
         :key="index"
-        @click="setting.id = index"
+        @click="setting.id = item.id"
       />
     </wc-flow-layout>
   </div>
@@ -19,13 +20,9 @@ import 'wc-flow-layout'
 import { ref } from 'vue'
 import Card from './Waterfall/Card.vue'
 import { setting } from '@/store/setting'
-
-const list = ref<number[]>(new Array(100))
+import { message } from '@/store/message'
 
 const cols = ref(5)
-window.onresize = () => {
-  setCols()
-}
 
 const setCols = () => {
   const innerWidth = window.innerWidth
@@ -41,6 +38,8 @@ const setCols = () => {
   cols.value = 1
 }
 setCols()
+
+window.onresize = setCols
 </script>
 
 <style lang="stylus" scoped>

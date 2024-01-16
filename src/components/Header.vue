@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="avatar"></div>
+    <Avatar />
     <div class="link">
       <svg
         class="icon"
@@ -18,18 +18,25 @@
         ></path>
         <path
           d="M883.939556 1024H253.838222C176.583111 1024 113.777778 964.266667 113.777778 890.823111v-399.36C113.777778 418.133333 176.583111 358.4 253.838222 358.4H290.133333A233.585778 233.585778 0 0 1 284.444444 307.2v-51.2C284.444444 114.574222 411.761778 0 568.888889 0c157.013333 0 284.444444 114.574222 284.444444 256v51.2c0 17.521778-1.991111 34.588444-5.688889 51.2h36.295112C961.137778 358.4 1024 418.133333 1024 491.52v399.303111C1024 964.266667 961.137778 1024 883.939556 1024zM512 702.805333V819.2c0 28.216889 25.486222 51.2 56.888889 51.2s56.888889-22.983111 56.888889-51.2v-116.394667c34.474667-17.635556 58.026667-50.403556 58.026666-88.405333 0-56.604444-51.484444-102.4-114.915555-102.4-63.488 0-114.915556 45.795556-114.915556 102.4 0 38.001778 23.552 70.826667 58.026667 88.405333zM739.555556 256c0-84.878222-76.401778-153.6-170.666667-153.6S398.222222 171.121778 398.222222 256v102.4h341.333334V256z"
-
         ></path>
       </svg>
       <span>EWW.INTERKNOW.INK</span>
     </div>
+    <div class="menu">
+      <div class="btn">推送</div>
+      <div class="btn">日程</div>
+      <div class="btn">绳匠课题</div>
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import Avatar from './Common/Avatar.vue'
+</script>
 
 <style lang="stylus" scoped>
 .header
+  overflow auto
   z-index 9
   position sticky
   top 0
@@ -63,4 +70,24 @@
     span
       font-size 14px
       font-weight bold
+
+  .menu
+    display flex
+    justify-content center
+    align-items center
+    box-sizing border-box
+    height 40px
+    padding 0 20px
+    margin-left 20px
+    border-radius 20px
+    border 4px solid #313131
+
+    .btn
+      position relative
+      box-sizing border-box
+      width 60px
+      margin 0 30px
+      color #fff
+      font-size 16px
+      white-space nowrap
 </style>

@@ -1,14 +1,14 @@
 <template>
   <div
     class="message"
-    v-if="setting.id !== undefined"
+    v-if="currentMessage"
   >
     <div class="message-box">
       <div class="header">
         <div class="user">
-          <Avatar />
+          <Avatar :src="currentMessage.user.avatar" />
           <div class="name">
-            <span>这是名字</span>
+            <span>{{ currentMessage.user.name }}</span>
             <div></div>
           </div>
         </div>
@@ -31,55 +31,34 @@
         </div>
       </div>
       <div class="content">
-        <div class="content-image"></div>
+        <div class="content-image">
+          <img
+            v-if="currentMessage.image"
+            :src="currentMessage.image"
+            alt=""
+          />
+        </div>
         <div class="content-message">
-          <div class="title">[潜水]</div>
+          <div class="title">{{ currentMessage.title }}</div>
           <div class="text">
-            这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容这是内容
+            {{ currentMessage.text }}
           </div>
           <div class="comment-list">
-            <div class="comment">
-              <Avatar class="comment-avatar" />
+            <div
+              class="comment"
+              v-for="(comment, index) in currentMessage.comments"
+              :key="index"
+            >
+              <Avatar
+                class="comment-avatar"
+                :src="comment.user.avatar"
+              />
               <div class="comment-content">
                 <div class="comment-name">
-                  <span> 这是名字 </span>
-                  <div class="floor">1F</div>
+                  <span> {{ comment.user.name }} </span>
+                  <div class="floor">{{ index + 1 }}F</div>
                 </div>
-                <div class="comment-text">这是回复</div>
-              </div>
-            </div>
-            <div class="comment">
-              <Avatar class="comment-avatar" />
-              <div class="comment-content">
-                <div class="comment-name">
-                  <span> 这是名字 </span>
-                  <div class="floor">2F</div>
-                </div>
-                <div class="comment-text">这是回复</div>
-              </div>
-            </div>
-            <div class="comment">
-              <Avatar class="comment-avatar" />
-              <div class="comment-content">
-                <div class="comment-name">
-                  <span> 这是名字 </span>
-                  <div class="floor">3F</div>
-                </div>
-                <div class="comment-text">
-                  这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复
-                </div>
-              </div>
-            </div>
-            <div class="comment">
-              <Avatar class="comment-avatar" />
-              <div class="comment-content">
-                <div class="comment-name">
-                  <span> 这是名字 </span>
-                  <div class="floor">4F</div>
-                </div>
-                <div class="comment-text">
-                  这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复这是回复
-                </div>
+                <div class="comment-text">{{ comment.text }}</div>
               </div>
             </div>
           </div>
@@ -90,6 +69,7 @@
 </template>
 
 <script lang="ts" setup>
+import { currentMessage } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
 import { setting } from '@/store/setting'
 </script>
@@ -172,7 +152,7 @@ import { setting } from '@/store/setting'
 
           div
             height 15px
-            width 50%
+            width 40px
             margin-top 3px
             background-color #666
             border-radius 10px
@@ -193,11 +173,21 @@ import { setting } from '@/store/setting'
       background-color #222
 
       .content-image
+        overflow hidden
+        display flex
+        align-items center
+        justify-content center
         box-sizing border-box
         height 100%
         width 30%
         border-radius 20px
-        border 4px solid rgba(100, 100, 100, 0.5)
+        border 3px solid rgba(100, 100, 100, 0.5)
+
+        img
+          display block
+          width 100%
+          height 100%
+          object-fit contain
 
       .content-message
         overflow-x hidden
@@ -249,7 +239,7 @@ import { setting } from '@/store/setting'
               padding 0 12px 0 10px
               color #000
               font-family none
-              font-size 16px
+              font-size 14px
               font-weight bold
               background-color #615f62
               border-radius 0 10px 10px 10px
