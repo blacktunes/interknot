@@ -6,6 +6,11 @@
         :src="message.image"
         alt=""
       />
+      <img
+        v-else
+        src="@/assets/images/empty.webp"
+        alt=""
+      />
     </div>
     <div class="content">
       <div class="user">
@@ -46,7 +51,7 @@ defineProps<{
   .image
     overflow hidden
     width 100%
-    background #666
+    background #333
 
     img
       display block

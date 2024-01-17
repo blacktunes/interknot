@@ -37,13 +37,37 @@
             :src="currentMessage.image"
             alt=""
           />
+          <img
+            v-else
+            src="@/assets/images/empty.webp"
+            alt=""
+          />
         </div>
         <div class="content-message">
-          <div class="title">{{ currentMessage.title }}</div>
-          <div class="text">
+          <div
+            class="title"
+            contenteditable
+            @keydown.enter.prevent.stop="blur"
+            @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
+            @focus="reset = false"
+            @blur="update($event, 'title', '无标题')"
+          >
+            {{ currentMessage.title }}
+          </div>
+          <div
+            class="text"
+            contenteditable
+            @keydown.enter.prevent.stop="blur"
+            @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
+            @focus="reset = false"
+            @blur="update($event, 'text', '暂无内容')"
+          >
             {{ currentMessage.text }}
           </div>
-          <div class="comment-list">
+          <div
+            class="comment-list"
+            v-if="currentMessage.comments.length > 0"
+          >
             <div
               class="comment"
               v-for="(comment, index) in currentMessage.comments"
@@ -62,16 +86,57 @@
               </div>
             </div>
           </div>
+          <div
+            class="empty-comment"
+            v-else
+          >
+            暂时没有人回复楼主···
+          </div>
         </div>
       </div>
+      <form
+        class="input"
+        @submit.prevent="test"
+      >
+        <input type="text" />
+        <button
+          class="btn"
+          type="submit"
+        >
+          回复
+        </button>
+      </form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { currentMessage } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
+import { currentMessage } from '@/store/message'
 import { setting } from '@/store/setting'
+
+let reset = false
+const blur = (e: KeyboardEvent) => {
+  ;(e.target as HTMLElement).blur()
+}
+
+const update = (e: Event, key: 'title' | 'text', defaultText = '空') => {
+  if (!currentMessage.value) return
+
+  if (reset) {
+    ;(e.target as HTMLElement).innerText = currentMessage.value[key]
+    return
+  }
+
+  if ((e.target as HTMLElement).innerText === currentMessage.value[key]) return
+
+  currentMessage.value[key] = (e.target as HTMLElement).innerText =
+    (e.target as HTMLElement).innerText || defaultText
+}
+
+const test = () => {
+  console.log(1)
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -114,7 +179,6 @@ import { setting } from '@/store/setting'
     overflow hidden
     width 70%
     max-width 1000px
-    max-height 90%
     background-color #000
     background-clip padding-box
     border 4px solid rgba(100, 100, 100, 0.2)
@@ -124,6 +188,11 @@ import { setting } from '@/store/setting'
       content ''
       display block
       margin-top 50%
+
+    &:hover
+      .input
+        opacity 1
+        transform translateY(0)
 
     .header
       position absolute
@@ -190,6 +259,8 @@ import { setting } from '@/store/setting'
           object-fit contain
 
       .content-message
+        display flex
+        flex-direction column
         overflow-x hidden
         overflow-y scroll
         flex 1
@@ -203,6 +274,8 @@ import { setting } from '@/store/setting'
         .title
           margin-bottom 10px
           color #fff
+          width 100%
+          word-break break-all
 
         .text
           color #b2b0b3
@@ -211,6 +284,9 @@ import { setting } from '@/store/setting'
         .comment
           display flex
           margin-top 5px
+
+          &:last-child
+            margin-bottom 25px
 
           .comment-avatar
             width 42px
@@ -247,6 +323,68 @@ import { setting } from '@/store/setting'
             .comment-text
               color #959295
 
+        .empty-comment
+          padding-top 10px
+          margin-top auto
+          color #666
+          transform translateY(30%)
+
+    .input
+      overflow hidden
+      box-sizing border-box
+      position absolute
+      right 21px
+      bottom 25px
+      display flex
+      justify-content center
+      align-items center
+      height 40px
+      width calc(70% - 50px)
+      border 4px solid #313131
+      border-radius 20px
+      background-color #000
+      font-size 16px
+      opacity 0
+      transform translateY(50%)
+      transition 0.15s linear
+
+      input
+        box-sizing border-box
+        flex 1
+        color #fff
+        outline none
+        border none
+        width 100px
+        height 100%
+        padding 0 15px
+        background-color transparent
+
+      .btn
+        flex-shrink 0
+        display flex
+        justify-content center
+        align-items center
+        width 50px
+        height 100%
+        padding 0 10px
+        margin 0
+        border none
+        outline none
+        border-radius 20px
+        color #fff
+        text-align center
+        background-color transparent
+        user-select none
+        cursor pointer
+
+        &:hover
+          color #000
+          background-color #a3c101
+
+      &:hover, &:focus-within
+        opacity 1
+        transform translateY(0)
+
 @media screen and (min-width 500px) and (max-width 1000px)
   .message
     .message-box
@@ -256,7 +394,7 @@ import { setting } from '@/store/setting'
   .message
     .message-box
       width 90%
-      height 90%
+      height 95%
 
       &:before
         content none
@@ -265,10 +403,7 @@ import { setting } from '@/store/setting'
         flex-direction column
         overflow-x hidden
         overflow-y auto
-
-        &::-webkit-scrollbar
-          width 0
-          height 0
+        margin-bottom 40px
 
         .content-image
           flex-shrink 0
@@ -277,9 +412,22 @@ import { setting } from '@/store/setting'
           max-height 110vw
 
         .content-message
-          flex unset
-          flex-shrink 0
+          overflow unset
+          flex 1 0 0%
           width 100%
           margin-top 20px
           margin-left unset
+
+          .comment
+            &:last-child
+              margin-bottom 0
+
+      .input
+        left 0
+        bottom 0
+        width 100%
+        opacity 1
+        transform translateY(0)
+        border-radius 10px
+        border 4px solid #000
 </style>

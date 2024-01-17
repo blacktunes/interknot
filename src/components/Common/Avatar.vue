@@ -12,7 +12,7 @@
 withDefaults(
   defineProps<{
     src?: string
-    size: number
+    size?: number
   }>(),
   { size: 50 }
 )

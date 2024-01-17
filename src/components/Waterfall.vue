@@ -6,7 +6,7 @@
       class="waterfall"
     >
       <Card
-        v-for="(item, index) in message.list"
+        v-for="(item, index) in list"
         :message="item"
         :key="index"
         @click="setting.id = item.id"
@@ -17,10 +17,12 @@
 
 <script lang="ts" setup>
 import 'wc-flow-layout'
-import { ref } from 'vue'
 import Card from './Waterfall/Card.vue'
+import { computed, ref } from 'vue'
 import { setting } from '@/store/setting'
 import { message } from '@/store/message'
+
+const list = computed(() => [...message.list].sort((a, b) => b.time - a.time))
 
 const cols = ref(5)
 

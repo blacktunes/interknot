@@ -26,13 +26,37 @@
       <span>EWW.INTERKNOW.INK</span>
     </div>
     <div class="menu">
-      <div class="btn"></div>
+      <div
+        class="btn"
+        @click="onNewMessageClick"
+      ></div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { message } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
+import { setting } from '@/store/setting';
+
+const onNewMessageClick = () => {
+  const time = Date.now()
+  message.list.push({
+    id: time,
+    user: {
+      id: 1,
+      name: '这是测试角色',
+      avatar:
+        'https://ts1.cn.mm.bing.net/th?id=OSK.5cd4345f332791306f4a1549a1f5e461&w=148&h=148&c=7&o=6&dpr=1.3&pid=SANGAM'
+    },
+    title: '这是标题',
+    text: '这是内容',
+    time,
+    comments: []
+  })
+
+  setting.id = time
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -115,7 +139,7 @@ import Avatar from './Common/Avatar.vue'
           align-items center
           justify-content center
           background-color #a3c101
-          border-radius 32.5px 10px 10px 32.5px
+          border-radius 30px 10px 10px 30px
 
         &:after
           color #000
@@ -127,7 +151,7 @@ import Avatar from './Common/Avatar.vue'
 @media screen and (max-width 500px)
   .menu
     position fixed
-    right 10px
-    bottom 10px
+    right 15px
+    bottom 5px
     border-radius 20px 10px 10px 20px
 </style>
