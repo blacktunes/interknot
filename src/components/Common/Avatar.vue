@@ -9,9 +9,13 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  src?: string
-}>()
+withDefaults(
+  defineProps<{
+    src?: string
+    size: number
+  }>(),
+  { size: 50 }
+)
 </script>
 
 <style lang="stylus" scoped>
@@ -19,8 +23,8 @@ defineProps<{
   flex-shrink 0
   position relative
   box-sizing border-box
-  width 50px
-  height 50px
+  width calc(v-bind(size) * 1px)
+  height calc(v-bind(size) * 1px)
   border-radius 50%
   background-color #a5a3a6
 

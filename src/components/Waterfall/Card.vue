@@ -45,9 +45,6 @@ defineProps<{
 
   .image
     overflow hidden
-    display flex
-    align-items center
-    justify-content center
     width 100%
     background #666
 

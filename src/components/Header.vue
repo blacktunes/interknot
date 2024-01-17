@@ -1,6 +1,9 @@
 <template>
   <div class="header">
-    <Avatar />
+    <Avatar
+      :size="40"
+      style="margin: 0 10px"
+    />
     <div class="link">
       <svg
         class="icon"
@@ -23,9 +26,7 @@
       <span>EWW.INTERKNOW.INK</span>
     </div>
     <div class="menu">
-      <div class="btn">推送</div>
-      <div class="btn">日程</div>
-      <div class="btn">绳匠课题</div>
+      <div class="btn"></div>
     </div>
   </div>
 </template>
@@ -46,13 +47,6 @@ import Avatar from './Common/Avatar.vue'
   height 50px
   color #404040
   padding 10px 0
-
-  .avatar
-    width 40px
-    height 40px
-    border 3px solid #393939
-    border-radius 50%
-    margin 0 10px
 
   .link
     flex 1
@@ -76,18 +70,64 @@ import Avatar from './Common/Avatar.vue'
     justify-content center
     align-items center
     box-sizing border-box
-    height 40px
-    padding 0 20px
+    padding 0 10px
     margin-left 20px
-    border-radius 20px
+    height 35px
+    background-color #000
     border 4px solid #313131
 
     .btn
       position relative
       box-sizing border-box
+      display flex
+      align-items center
+      justify-content center
       width 60px
-      margin 0 30px
-      color #fff
+      height 100%
+      margin 0 20px
       font-size 16px
+      text-align center
       white-space nowrap
+      user-select none
+      cursor pointer
+
+      &:after
+        content '发帖'
+        position absolute
+        top 0
+        left 0
+        width 100%
+        height 100%
+        display flex
+        align-items center
+        justify-content center
+        color #fff
+
+      &:hover
+        &:before
+          content ''
+          position absolute
+          top -5px
+          right -35px
+          bottom -5px
+          left -35px
+          display flex
+          align-items center
+          justify-content center
+          background-color #a3c101
+          border-radius 32.5px 10px 10px 32.5px
+
+        &:after
+          color #000
+
+@media screen and (min-width 500px)
+  .menu
+    border-radius 20px
+
+@media screen and (max-width 500px)
+  .menu
+    position fixed
+    right 10px
+    bottom 10px
+    border-radius 20px 10px 10px 20px
 </style>

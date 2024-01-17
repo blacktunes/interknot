@@ -271,9 +271,10 @@ import { setting } from '@/store/setting'
           height 0
 
         .content-image
+          flex-shrink 0
           width 100%
-          height 0
-          padding-bottom 130%
+          height auto
+          max-height 110vw
 
         .content-message
           flex unset

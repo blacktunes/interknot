@@ -47,6 +47,5 @@ window.onresize = setCols
   flex 1
   overflow scroll
   width 100%
-  margin 10px 0
   border-radius 10px
 </style>
