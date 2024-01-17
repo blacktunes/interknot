@@ -230,6 +230,10 @@ const test = () => {
         margin-left auto
         cursor pointer
 
+        &:hover
+          path
+            fill #ffeb00
+
     .content
       position absolute
       top 70px
@@ -278,6 +282,7 @@ const test = () => {
           word-break break-all
 
         .text
+          flex 1
           color #b2b0b3
           margin-bottom 30px
 
@@ -319,11 +324,13 @@ const test = () => {
               font-weight bold
               background-color #615f62
               border-radius 0 10px 10px 10px
+              user-select none
 
             .comment-text
               color #959295
 
         .empty-comment
+          text-align right
           padding-top 10px
           margin-top auto
           color #666
@@ -356,7 +363,10 @@ const test = () => {
         border none
         width 100px
         height 100%
-        padding 0 15px
+        padding 0 10px 0 20px
+        overflow hidden
+        white-space nowrap
+        text-overflow ellipsis
         background-color transparent
 
       .btn
@@ -364,7 +374,7 @@ const test = () => {
         display flex
         justify-content center
         align-items center
-        width 50px
+        width 70px
         height 100%
         padding 0 10px
         margin 0

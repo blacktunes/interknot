@@ -49,8 +49,8 @@ const onNewMessageClick = () => {
       avatar:
         'https://ts1.cn.mm.bing.net/th?id=OSK.5cd4345f332791306f4a1549a1f5e461&w=148&h=148&c=7&o=6&dpr=1.3&pid=SANGAM'
     },
-    title: '这是标题',
-    text: '这是内容',
+    title: '点击修改标题',
+    text: '点击修改内容',
     time,
     comments: []
   })
@@ -106,9 +106,9 @@ const onNewMessageClick = () => {
       display flex
       align-items center
       justify-content center
-      width 60px
+      width 80px
       height 100%
-      margin 0 20px
+      margin 0 10px
       font-size 16px
       text-align center
       white-space nowrap
@@ -132,14 +132,14 @@ const onNewMessageClick = () => {
           content ''
           position absolute
           top -5px
-          right -35px
+          right -25px
           bottom -5px
-          left -35px
+          left -25px
           display flex
           align-items center
           justify-content center
           background-color #a3c101
-          border-radius 30px 10px 10px 30px
+          border-radius 30px 10px 20px 30px
 
         &:after
           color #000
