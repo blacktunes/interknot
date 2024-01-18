@@ -39,9 +39,15 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
-  title?: string
-}>()
+withDefaults(
+  defineProps<{
+    title?: string
+    height?: string
+  }>(),
+  {
+    height: '50%'
+  }
+)
 
 defineEmits<{
   (event: 'close'): void
@@ -96,7 +102,7 @@ defineEmits<{
     &:before
       content ''
       display block
-      margin-top 50%
+      margin-top v-bind(height)
 
     .header
       position absolute
@@ -150,5 +156,4 @@ defineEmits<{
         flex-direction column
         overflow-x hidden
         overflow-y auto
-        margin-bottom 40px
 </style>

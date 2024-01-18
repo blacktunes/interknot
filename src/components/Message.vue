@@ -1,7 +1,7 @@
 <template>
   <Window
     v-if="currentMessage"
-    @close="setting.id = undefined"
+    @close="setting.messageID = undefined"
   >
     <template #header>
       <div class="user">
@@ -48,9 +48,7 @@
       >
         {{ currentMessage.text }}
       </div>
-      <div
-        v-if="currentMessage.comments.length > 0"
-      >
+      <div v-if="currentMessage.comments.length > 0">
         <div
           class="comment"
           v-for="(comment, index) in currentMessage.comments"
@@ -316,6 +314,9 @@ const test = () => {
     transform translateY(0)
 
 @media screen and (max-width 700px) and (max-aspect-ratio 1 / 1)
+  :deep(.content)
+    margin-bottom 40px
+
   .image
     flex-shrink 0
     width 100%

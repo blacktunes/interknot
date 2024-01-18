@@ -6,9 +6,9 @@ export const getMessageIndex = (id: number) => {
 }
 
 export const currentMessage = computed(() => {
-  if (setting.id === undefined) return undefined
+  if (setting.messageID === undefined) return undefined
 
-  const index = getMessageIndex(setting.id)
+  const index = getMessageIndex(setting.messageID)
   if (index !== -1) {
     return message.list[index]
   }

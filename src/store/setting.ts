@@ -1,7 +1,15 @@
 import { reactive } from 'vue'
 
 export const setting = reactive<{
-  id?: number
+  messageID?: number
+  userID?: number
+  selectID?: number
 }>({
-  id: undefined
+  messageID: undefined,
+  userID: undefined,
+  selectID: undefined
+})
+
+export const popup = reactive({
+  select: false
 })

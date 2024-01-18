@@ -1,8 +1,10 @@
 <template>
   <div class="header">
     <Avatar
+      :src="user.avatar"
       :size="40"
-      style="margin: 0 10px"
+      style="margin: 0 10px; cursor: pointer"
+      @click="popup.select = true"
     />
     <div class="link">
       <svg
@@ -37,7 +39,8 @@
 <script lang="ts" setup>
 import { message } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
-import { setting } from '@/store/setting';
+import { popup, setting } from '@/store/setting'
+import { user } from '@/store/character'
 
 const onNewMessageClick = () => {
   const time = Date.now()
@@ -55,7 +58,7 @@ const onNewMessageClick = () => {
     comments: []
   })
 
-  setting.id = time
+  setting.messageID = time
 }
 </script>
 

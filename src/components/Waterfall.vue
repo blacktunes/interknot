@@ -9,7 +9,7 @@
         v-for="(item, index) in list"
         :message="item"
         :key="index"
-        @click="setting.id = item.id"
+        @click="setting.messageID = item.id"
       />
     </wc-flow-layout>
   </div>
