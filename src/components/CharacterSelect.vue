@@ -38,28 +38,15 @@
         </div>
         <div class="name">{{ item.name }}</div>
       </div>
+    </div>
+    <template #footer>
       <div
-        class="character"
+        class="add"
         @click="onAddClick"
       >
-        <div class="avatar">
-          <svg
-            style="background-color: #fff"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            width="80"
-            height="80"
-          >
-            <path
-              d="M832.234 448H575.25V191.016c0-35.346-28.653-64-64-64s-64 28.654-64 64V448H191.766c-35.346 0-64 28.654-64 64s28.654 64 64 64H447.25v256.984c0 35.346 28.654 64 64 64s64-28.654 64-64V576h256.984c35.346 0 64-28.653 64-64s-28.654-64-64-64z"
-              fill=""
-            ></path>
-          </svg>
-        </div>
-        <div class="name">新角色</div>
+        新角色
       </div>
-    </div>
+    </template>
   </Window>
 </template>
 
@@ -129,6 +116,12 @@ const handelDelete = (index: number) => {
 </script>
 
 <style lang="stylus" scoped>
+.window
+  &:hover
+    .add
+      opacity 1
+      transform translate(-50%, 0)
+
 :deep(.content)
   padding 0 15px !important
 
@@ -137,6 +130,7 @@ const handelDelete = (index: number) => {
   display flex
   flex-wrap wrap
   align-items flex-start
+  align-content flex-start
   width 100%
   padding 10px 0
 
@@ -152,6 +146,9 @@ const handelDelete = (index: number) => {
     border-radius 20px
     user-select none
     cursor pointer
+
+    &:last-child
+      margin-bottom 45px
 
     .avatar
       position relative
@@ -182,6 +179,32 @@ const handelDelete = (index: number) => {
       white-space nowrap
       width 100%
 
+.add
+  display flex
+  justify-content center
+  align-items center
+  position absolute
+  bottom 10px
+  left 50%
+  box-sizing border-box
+  height 35px
+  padding 5px 15px
+  background-color #000
+  border-radius 15px
+  border 4px solid #313131
+  color #fff
+  transform translate(-50%, 50%)
+  opacity 0
+  transition 0.2s
+  cursor pointer
+
+  &:hover
+    opacity 1
+    transform translate(-50%, 0)
+    color #000
+    background-color #a3c101
+    border-color #a3c101
+
 .highlight
   background-color #a3c101
 
@@ -192,4 +215,14 @@ const handelDelete = (index: number) => {
   .scroll-view
     .character
       width 31%
+
+@media screen and (min-width 1000px)
+  .scroll-view
+    .character
+      width 12%
+
+@media screen and (max-width 700px) and (max-aspect-ratio 1 / 1)
+  .add
+    opacity 1
+    transform translate(-50%, 0)
 </style>

@@ -1,10 +1,11 @@
 import { computed, reactive } from 'vue'
 import { setting } from './setting'
-import { urlToBase64 } from '@/assets/scripts/image'
 
 const getAvatar = (name: string) => {
   return new URL(`../assets/images/${name}`, import.meta.url).href
 }
+
+export const defaultAvatar = computed(() => character.game[0].avatar)
 
 export const character = reactive<{
   game: Character[]
@@ -14,7 +15,7 @@ export const character = reactive<{
     {
       id: 1,
       name: '匿名',
-      avatar: getAvatar('1.png')
+      avatar: getAvatar('avatar.webp')
     }
   ],
   custom: []
@@ -30,12 +31,3 @@ export const user = computed(() => {
   }
   return userItem
 })
-
-const preload = async () => {
-  for (const i in character.game) {
-    urlToBase64(character.game[i].avatar).then((res) => {
-      character.game[i].avatar = res
-    })
-  }
-}
-preload()
