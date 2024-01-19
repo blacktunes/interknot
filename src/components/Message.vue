@@ -1,11 +1,15 @@
 <template>
   <Window
     v-if="currentMessage"
-    @close="setting.messageID = undefined"
+    @close="closeWindow('message')"
   >
     <template #header>
       <div class="user">
-        <Avatar :src="currentMessage.user.avatar" />
+        <Avatar
+          style="cursor: pointer"
+          :src="currentMessage.user.avatar"
+          @click="onAvatarClick"
+        />
         <div class="name">
           <span>{{ currentMessage.user.name }}</span>
           <div></div>
@@ -92,11 +96,12 @@
 </template>
 
 <script lang="ts" setup>
+import Window from './Common/Window.vue'
 import Avatar from './Common/Avatar.vue'
 import { currentMessage } from '@/store/message'
 import { setting } from '@/store/setting'
 import { compressImage } from '@/assets/scripts/image'
-import Window from './Common/Window.vue'
+import { closeWindow, openWindow } from '@/store/popup'
 
 let reset = false
 const blur = (e: KeyboardEvent) => {
@@ -127,6 +132,11 @@ const onImageClick = () => {
     }
   }
   el.click()
+}
+
+const onAvatarClick = (id?: number) => {
+  setting.selectID = id
+  openWindow('select')
 }
 
 const test = () => {

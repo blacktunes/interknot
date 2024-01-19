@@ -1,8 +1,7 @@
 <template>
   <Window
     title="更换角色"
-    v-if="popup.select"
-    @close="popup.select = false"
+    @close="closeWindow('select')"
   >
     <div class="scroll-view">
       <div
@@ -52,24 +51,26 @@
 
 <script lang="ts" setup>
 import Window from './Common/Window.vue'
-import { setting, popup } from '@/store/setting'
+import { setting } from '@/store/setting'
 import { character } from '@/store/character'
 import { computed } from 'vue'
 import { compressImage } from '@/assets/scripts/image'
 import { currentMessage } from '@/store/message'
+import { closeWindow, openWindow } from '@/store/popup'
 
 const highlightID = computed(() => {
-  if (!popup.select) return 0
+  return 0
+  // if (!popup.select) return 0
 
-  if (currentMessage.value) {
-    if (setting.selectID === undefined) {
-      return currentMessage.value.user.id
-    } else {
-      return currentMessage.value.comments[setting.selectID].user.id
-    }
-  } else {
-    return setting.userID
-  }
+  // if (currentMessage.value) {
+  //   if (setting.selectID === undefined) {
+  //     return currentMessage.value.user.id
+  //   } else {
+  //     return currentMessage.value.comments[setting.selectID].user.id
+  //   }
+  // } else {
+  //   return setting.userID
+  // }
 })
 
 const onCharacterClick = (item: { id: number; name: string; avatar: string }) => {
@@ -82,7 +83,7 @@ const onCharacterClick = (item: { id: number; name: string; avatar: string }) =>
   } else {
     setting.userID = item.id
   }
-  popup.select = false
+  openWindow('select')
 }
 
 const onAddClick = () => {
@@ -226,3 +227,4 @@ const handelDelete = (index: number) => {
     opacity 1
     transform translate(-50%, 0)
 </style>
+@/store/popup

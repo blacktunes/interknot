@@ -4,7 +4,7 @@
       :src="user.avatar"
       :size="40"
       style="margin: 0 10px; cursor: pointer"
-      @click="popup.select = true"
+      @click="openWindow('select')"
     />
     <div class="link">
       <svg
@@ -39,8 +39,9 @@
 <script lang="ts" setup>
 import { message } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
-import { popup, setting } from '@/store/setting'
+import { setting } from '@/store/setting'
 import { user } from '@/store/character'
+import { openWindow } from '@/store/popup'
 
 const onNewMessageClick = () => {
   const time = Date.now()
@@ -158,3 +159,4 @@ const onNewMessageClick = () => {
     bottom 5px
     border-radius 20px 10px 10px 20px
 </style>
+@/store/popup

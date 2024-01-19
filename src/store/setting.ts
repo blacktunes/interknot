@@ -9,7 +9,3 @@ export const setting = reactive<{
   userID: undefined,
   selectID: undefined
 })
-
-export const popup = reactive({
-  select: false
-})

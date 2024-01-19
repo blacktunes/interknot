@@ -9,7 +9,7 @@
         v-for="(item, index) in list"
         :message="item"
         :key="index"
-        @click="setting.messageID = item.id"
+        @click="openWindow('message', item.id)"
       />
     </wc-flow-layout>
   </div>
@@ -19,8 +19,8 @@
 import 'wc-flow-layout'
 import Card from './Waterfall/Card.vue'
 import { computed, ref } from 'vue'
-import { setting } from '@/store/setting'
 import { message } from '@/store/message'
+import { openWindow } from '@/store/popup'
 
 const list = computed(() => [...message.list].sort((a, b) => b.time - a.time))
 
@@ -51,3 +51,4 @@ window.onresize = setCols
   width 100%
   border-radius 10px
 </style>
+@/store/popup
