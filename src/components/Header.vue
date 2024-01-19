@@ -39,7 +39,6 @@
 <script lang="ts" setup>
 import { message } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
-import { setting } from '@/store/setting'
 import { user } from '@/store/character'
 import { openWindow } from '@/store/popup'
 
@@ -59,7 +58,7 @@ const onNewMessageClick = () => {
     comments: []
   })
 
-  setting.messageID = time
+  openWindow('message', time)
 }
 </script>
 

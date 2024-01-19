@@ -4,12 +4,11 @@
     @close="closeWindow('message')"
   >
     <template #header>
-      <div class="user">
-        <Avatar
-          style="cursor: pointer"
-          :src="currentMessage.user.avatar"
-          @click="onAvatarClick"
-        />
+      <div
+        class="user"
+        @click="onAvatarClick()"
+      >
+        <Avatar :src="currentMessage.user.avatar" />
         <div class="name">
           <span>{{ currentMessage.user.name }}</span>
           <div></div>
@@ -31,7 +30,10 @@
         alt=""
       />
     </div>
-    <div class="message">
+    <div
+      class="message"
+      ref="messageDom"
+    >
       <div
         class="title"
         contenteditable
@@ -61,13 +63,26 @@
           <Avatar
             class="comment-avatar"
             :src="comment.user.avatar"
+            @click.stop="openWindow('select', index)"
           />
           <div class="comment-content">
-            <div class="comment-name">
+            <div
+              class="comment-name"
+              @click.stop="openWindow('select', index)"
+            >
               <span> {{ comment.user.name }} </span>
               <div class="floor">{{ index + 1 }}F</div>
             </div>
-            <div class="comment-text">{{ comment.text }}</div>
+            <div
+              class="comment-text"
+              contenteditable
+              @keydown.enter.prevent.stop="blur"
+              @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
+              @focus="reset = false"
+              @blur="updateComment($event, index)"
+            >
+              {{ comment.text }}
+            </div>
           </div>
         </div>
       </div>
@@ -81,9 +96,17 @@
     <template #footer>
       <form
         class="input"
-        @submit.prevent="test"
+        @submit.prevent="sendComment"
       >
-        <input type="text" />
+        <Avatar
+          class="input-avatar"
+          :src="input.commentUser?.avatar"
+          @click.stop="onAvatarClick(-1)"
+        />
+        <input
+          type="text"
+          v-model="input.commentText"
+        />
         <button
           class="btn"
           type="submit"
@@ -99,9 +122,10 @@
 import Window from './Common/Window.vue'
 import Avatar from './Common/Avatar.vue'
 import { currentMessage } from '@/store/message'
-import { setting } from '@/store/setting'
+import { setting, input } from '@/store/setting'
 import { compressImage } from '@/assets/scripts/image'
 import { closeWindow, openWindow } from '@/store/popup'
+import { nextTick, ref } from 'vue'
 
 let reset = false
 const blur = (e: KeyboardEvent) => {
@@ -122,6 +146,20 @@ const update = (e: Event, key: 'title' | 'text', defaultText = '空') => {
     (e.target as HTMLElement).innerText || defaultText
 }
 
+const updateComment = (e: Event, key: number, defaultText = '空') => {
+  if (!currentMessage.value) return
+
+  if (reset) {
+    ;(e.target as HTMLElement).innerText = currentMessage.value.comments[key].text
+    return
+  }
+
+  if ((e.target as HTMLElement).innerText === currentMessage.value.comments[key].text) return
+
+  currentMessage.value.comments[key].text = (e.target as HTMLElement).innerText =
+    (e.target as HTMLElement).innerText || defaultText
+}
+
 const onImageClick = () => {
   const el = document.createElement('input')
   el.type = 'file'
@@ -139,8 +177,26 @@ const onAvatarClick = (id?: number) => {
   openWindow('select')
 }
 
-const test = () => {
-  console.log(1)
+const messageDom = ref<HTMLElement | null>(null)
+const sendComment = () => {
+  if (!currentMessage.value || input.commentText.length === 0) return
+
+  currentMessage.value.comments.push({
+    user: input.commentUser,
+    text: input.commentText || '空'
+  })
+  currentMessage.value.time = Date.now()
+  input.commentText = ''
+
+  console.log(messageDom.value)
+
+  nextTick(() => {
+    if (!messageDom.value) return
+    messageDom.value.scrollTo({
+      top: messageDom.value.scrollHeight,
+      behavior: 'smooth'
+    })
+  })
 }
 </script>
 
@@ -154,6 +210,8 @@ const test = () => {
 .user
   display flex
   align-items center
+  user-select none
+  cursor pointer
 
   .name
     display flex
@@ -224,6 +282,7 @@ const test = () => {
     .comment-avatar
       width 42px
       height 42px
+      cursor pointer
 
     .comment-content
       flex 1
@@ -239,6 +298,7 @@ const test = () => {
 
         span
           color #fff
+          cursor pointer
 
       .floor
         display flex
@@ -265,23 +325,27 @@ const test = () => {
     transform translateY(30%)
 
 .input
-  overflow hidden
   box-sizing border-box
   position absolute
-  right 21px
-  bottom 25px
+  right 20px
+  bottom 20px
   display flex
   justify-content center
   align-items center
   height 40px
-  width calc(70% - 50px)
+  width calc(65% - 40px)
   border 4px solid #313131
   border-radius 20px
   background-color #000
   font-size 16px
   opacity 0
   transform translateY(50%)
-  transition 0.15s linear
+  transition transform 0.15s linear, opacity 0.2s
+
+  .input-avatar
+    position absolute
+    left -12px
+    cursor pointer
 
   input
     box-sizing border-box
@@ -291,7 +355,7 @@ const test = () => {
     border none
     width 100px
     height 100%
-    padding 0 10px 0 20px
+    padding 0 10px 0 50px
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
@@ -352,4 +416,10 @@ const test = () => {
     transform translateY(0)
     border-radius 10px
     border 4px solid #000
+
+    .input-avatar
+      left 15px
+
+    input
+      padding-left 75px
 </style>
