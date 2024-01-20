@@ -1,9 +1,5 @@
 interface MessageBase {
-  user: {
-    id: number
-    name: string
-    avatar: string
-  }
+  user: Character
   text: string
 }
 
@@ -19,4 +15,5 @@ interface Character {
   id: number
   name: string
   avatar: string
+  level?: number
 }

@@ -1,6 +1,7 @@
 <template>
   <Window
     v-if="currentMessage"
+    ref="windowDom"
     @close="closeWindow('message')"
   >
     <template #header>
@@ -11,7 +12,7 @@
         <Avatar :src="currentMessage.user.avatar" />
         <div class="name">
           <span>{{ currentMessage.user.name }}</span>
-          <div></div>
+          <Level :level="currentMessage.user.level" />
         </div>
       </div>
     </template>
@@ -96,6 +97,7 @@
     <template #footer>
       <form
         class="input"
+        :class="{ show: input.commentText.length > 0 }"
         @submit.prevent="sendComment"
       >
         <Avatar
@@ -126,6 +128,7 @@ import { setting, input } from '@/store/setting'
 import { compressImage } from '@/assets/scripts/image'
 import { closeWindow, openWindow } from '@/store/popup'
 import { nextTick, ref } from 'vue'
+import Level from './Common/Level.vue'
 
 let reset = false
 const blur = (e: KeyboardEvent) => {
@@ -134,30 +137,30 @@ const blur = (e: KeyboardEvent) => {
 
 const update = (e: Event, key: 'title' | 'text', defaultText = '空') => {
   if (!currentMessage.value) return
+  const target = e.target as HTMLElement
 
   if (reset) {
-    ;(e.target as HTMLElement).innerText = currentMessage.value[key]
+    target.innerText = currentMessage.value[key]
     return
   }
 
-  if ((e.target as HTMLElement).innerText === currentMessage.value[key]) return
+  if (target.innerText === currentMessage.value[key]) return
 
-  currentMessage.value[key] = (e.target as HTMLElement).innerText =
-    (e.target as HTMLElement).innerText || defaultText
+  currentMessage.value[key] = target.innerText = target.innerText || defaultText
 }
 
 const updateComment = (e: Event, key: number, defaultText = '空') => {
   if (!currentMessage.value) return
+  const target = e.target as HTMLElement
 
   if (reset) {
-    ;(e.target as HTMLElement).innerText = currentMessage.value.comments[key].text
+    target.innerText = currentMessage.value.comments[key].text
     return
   }
 
-  if ((e.target as HTMLElement).innerText === currentMessage.value.comments[key].text) return
+  if (target.innerText === currentMessage.value.comments[key].text) return
 
-  currentMessage.value.comments[key].text = (e.target as HTMLElement).innerText =
-    (e.target as HTMLElement).innerText || defaultText
+  currentMessage.value.comments[key].text = target.innerText = target.innerText || defaultText
 }
 
 const onImageClick = () => {
@@ -177,6 +180,7 @@ const onAvatarClick = (id?: number) => {
   openWindow('select')
 }
 
+const windowDom = ref<InstanceType<typeof Window>>()
 const messageDom = ref<HTMLElement | null>(null)
 const sendComment = () => {
   if (!currentMessage.value || input.commentText.length === 0) return
@@ -188,24 +192,34 @@ const sendComment = () => {
   currentMessage.value.time = Date.now()
   input.commentText = ''
 
-  console.log(messageDom.value)
-
   nextTick(() => {
-    if (!messageDom.value) return
-    messageDom.value.scrollTo({
-      top: messageDom.value.scrollHeight,
-      behavior: 'smooth'
-    })
+    if (
+      windowDom?.value?.contentDom &&
+      windowDom.value.contentDom.scrollHeight > windowDom.value.contentDom.offsetHeight
+    ) {
+      windowDom.value.contentDom.scrollTo({
+        top: windowDom.value.contentDom.scrollHeight,
+        behavior: 'smooth'
+      })
+    } else if (messageDom.value && messageDom.value.scrollHeight > messageDom.value.offsetHeight) {
+      messageDom.value.scrollTo({
+        top: messageDom.value.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
   })
 }
 </script>
 
 <style lang="stylus" scoped>
+show()
+  opacity 1
+  transform translateY(0)
+
 .window
   &:hover
     .input
-      opacity 1
-      transform translateY(0)
+      show()
 
 .user
   display flex
@@ -223,12 +237,8 @@ const sendComment = () => {
       font-size 18px
       height 20px
 
-    div
-      height 15px
-      width 40px
-      margin-top 3px
-      background-color #666
-      border-radius 10px
+    .level
+      margin-right auto
 
 .image
   overflow hidden
@@ -333,7 +343,7 @@ const sendComment = () => {
   justify-content center
   align-items center
   height 40px
-  width calc(65% - 40px)
+  width calc(70% - 82.5px)
   border 4px solid #313131
   border-radius 20px
   background-color #000
@@ -384,8 +394,10 @@ const sendComment = () => {
       background-color #a3c101
 
   &:hover, &:focus-within
-    opacity 1
-    transform translateY(0)
+    show()
+
+.show
+  show()
 
 @media screen and (max-width 700px) and (max-aspect-ratio 1 / 1)
   :deep(.content)

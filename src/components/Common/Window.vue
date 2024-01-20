@@ -30,7 +30,10 @@
           </svg>
         </div>
       </div>
-      <div class="content">
+      <div
+        class="content"
+        ref="contentDom"
+      >
         <slot></slot>
       </div>
       <slot name="footer"></slot>
@@ -39,6 +42,8 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 withDefaults(
   defineProps<{
     title?: string
@@ -52,6 +57,10 @@ withDefaults(
 defineEmits<{
   (event: 'close'): void
 }>()
+
+const contentDom = ref<HTMLElement | null>(null)
+
+defineExpose({ contentDom })
 </script>
 
 <style lang="stylus" scoped>

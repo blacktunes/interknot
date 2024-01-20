@@ -89,6 +89,7 @@ const onCharacterClick = (item: Character) => {
 
 const onAddClick = () => {
   const name = prompt('角色名')
+  const level = Number(prompt('角色等级？'))
   if (name !== null && name.length > 0) {
     setTimeout(() => {
       const input = document.createElement('input')
@@ -100,6 +101,7 @@ const onAddClick = () => {
           character.custom.push({
             id: Date.now(),
             name,
+            level: isNaN(level) ? undefined : level,
             avatar
           })
         }
