@@ -50,13 +50,13 @@
 </template>
 
 <script lang="ts" setup>
-import Window from './Common/Window.vue'
+import Window from '../Common/Window.vue'
 import { setting, input } from '@/store/setting'
 import { character } from '@/store/character'
 import { computed } from 'vue'
 import { compressImage } from '@/assets/scripts/image'
 import { currentMessage } from '@/store/message'
-import { closeWindow } from '@/store/popup'
+import { closeWindow } from '@/assets/scripts/popup'
 
 const highlightID = computed(() => {
   if (currentMessage.value) {
@@ -230,4 +230,3 @@ const handelDelete = (index: number) => {
     opacity 1
     transform translate(-50%, 0)
 </style>
-@/store/popup

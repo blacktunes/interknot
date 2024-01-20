@@ -2,6 +2,6 @@ import './main.styl'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import './store/setup'
+import './assets/scripts/setup'
 
 createApp(App).mount('#app')

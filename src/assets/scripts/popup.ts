@@ -1,7 +1,7 @@
-import MessageVue from '@/components/Message.vue'
-import CharacterSelectVue from '@/components/CharacterSelect.vue'
+import MessageVue from '@/components/Popup/Message.vue'
+import CharacterSelectVue from '@/components/Popup/CharacterSelect.vue'
 import { ref, type Component, markRaw } from 'vue'
-import { setting } from './setting'
+import { setting } from '../../store/setting'
 
 const components = {
   message: MessageVue,

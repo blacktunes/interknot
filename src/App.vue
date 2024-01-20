@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { defineComponent } from 'vue'
 import type { Component } from 'vue'
-import { popupComponents } from './store/popup'
+import { popupComponents } from './assets/scripts/popup'
 
 // 动态加载所有组件
 const components: Component[] = []
@@ -48,4 +48,3 @@ for (const i in modules) {
   max-width 1280px
   height 100vh
 </style>
-./store/popup

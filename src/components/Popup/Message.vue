@@ -121,14 +121,14 @@
 </template>
 
 <script lang="ts" setup>
-import Window from './Common/Window.vue'
-import Avatar from './Common/Avatar.vue'
+import Window from '../Common/Window.vue'
+import Avatar from '../Common/Avatar.vue'
+import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
 import { setting, input } from '@/store/setting'
 import { compressImage } from '@/assets/scripts/image'
-import { closeWindow, openWindow } from '@/store/popup'
+import { closeWindow, openWindow } from '@/assets/scripts/popup'
 import { nextTick, ref } from 'vue'
-import Level from './Common/Level.vue'
 
 let reset = false
 const blur = (e: KeyboardEvent) => {
@@ -435,3 +435,4 @@ show()
     input
       padding-left 75px
 </style>
+@/assets/scripts/popup

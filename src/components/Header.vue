@@ -40,7 +40,7 @@
 import { message } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
 import { user } from '@/store/character'
-import { openWindow } from '@/store/popup'
+import { openWindow } from '@/assets/scripts/popup'
 
 const onNewMessageClick = () => {
   const time = Date.now()
@@ -158,4 +158,3 @@ const onNewMessageClick = () => {
     bottom 5px
     border-radius 20px 10px 10px 20px
 </style>
-@/store/popup
