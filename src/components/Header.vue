@@ -46,12 +46,7 @@ const onNewMessageClick = () => {
   const time = Date.now()
   message.list.push({
     id: time,
-    user: {
-      id: 1,
-      name: '这是测试角色',
-      avatar:
-        'https://ts1.cn.mm.bing.net/th?id=OSK.5cd4345f332791306f4a1549a1f5e461&w=148&h=148&c=7&o=6&dpr=1.3&pid=SANGAM'
-    },
+    user: user.value,
     title: '点击修改标题',
     text: '点击修改内容',
     time,

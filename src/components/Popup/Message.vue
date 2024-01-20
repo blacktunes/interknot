@@ -9,11 +9,19 @@
         class="user"
         @click="onAvatarClick()"
       >
-        <Avatar :src="currentMessage.user.avatar" />
-        <div class="name">
-          <span>{{ currentMessage.user.name }}</span>
-          <Level :level="currentMessage.user.level" />
-        </div>
+        <template v-if="typeof currentMessage.user === 'number'">
+          <Avatar :src="character.game[currentMessage.user].avatar" />
+          <div class="name">
+            <span>{{ character.game[currentMessage.user].name }}</span>
+            <Level :level="character.game[currentMessage.user].level" /></div
+        ></template>
+        <template v-else>
+          <Avatar :src="currentMessage.user.avatar" />
+          <div class="name">
+            <span>{{ currentMessage.user.name }}</span>
+            <Level :level="currentMessage.user.level" />
+          </div>
+        </template>
       </div>
     </template>
     <div
@@ -61,17 +69,34 @@
           v-for="(comment, index) in currentMessage.comments"
           :key="index"
         >
-          <Avatar
-            class="comment-avatar"
-            :src="comment.user.avatar"
-            @click.stop="openWindow('select', index)"
-          />
+          <template v-if="typeof comment.user === 'number'">
+            <Avatar
+              class="comment-avatar"
+              :src="character.game[comment.user].avatar"
+              @click.stop="openWindow('select', index)"
+            />
+          </template>
+          <template v-else>
+            <Avatar
+              class="comment-avatar"
+              :src="comment.user.avatar"
+              @click.stop="openWindow('select', index)"
+            />
+          </template>
           <div class="comment-content">
             <div
               class="comment-name"
               @click.stop="openWindow('select', index)"
             >
-              <span> {{ comment.user.name }} </span>
+              <span>
+                {{ checkOwner(comment.user) }}
+                <template v-if="typeof comment.user === 'number'">
+                  {{ character.game[comment.user].name }}
+                </template>
+                <template v-else>
+                  {{ comment.user.name }}
+                </template>
+              </span>
               <div class="floor">{{ index + 1 }}F</div>
             </div>
             <div
@@ -110,7 +135,9 @@
           v-model="input.commentText"
         />
         <button
+          :disabled="input.commentText.length === 0"
           class="btn"
+          :class="{ disabled: input.commentText.length === 0 }"
           type="submit"
         >
           回复
@@ -129,6 +156,29 @@ import { setting, input } from '@/store/setting'
 import { compressImage } from '@/assets/scripts/image'
 import { closeWindow, openWindow } from '@/assets/scripts/popup'
 import { nextTick, ref } from 'vue'
+import { character } from '@/store/character'
+
+const checkOwner = (user: number | Character) => {
+  if (!currentMessage.value) return
+
+  if (typeof currentMessage.value.user === 'number') {
+    if (currentMessage.value.user === 0) return
+
+    if (typeof user === 'number') {
+      if (user === currentMessage.value.user) return '[楼主]'
+    } else {
+      if (user.id === character.game[currentMessage.value.user].id) return '[楼主]'
+    }
+  } else {
+    if (currentMessage.value.user.id === 0) return
+
+    if (typeof user === 'number') {
+      if (character.game[user].id === currentMessage.value.user.id) return '[楼主]'
+    } else {
+      if (user.id === currentMessage.value.user.id) return '[楼主]'
+    }
+  }
+}
 
 let reset = false
 const blur = (e: KeyboardEvent) => {
@@ -278,7 +328,6 @@ show()
     word-break break-all
 
   .text
-    flex 1
     color #b2b0b3
     margin-bottom 30px
 
@@ -399,6 +448,14 @@ show()
 .show
   show()
 
+.disabled
+  color #666 !important
+  cursor default !important
+
+  &:hover
+    color #666 !important
+    background-color transparent !important
+
 @media screen and (max-width 700px) and (max-aspect-ratio 1 / 1)
   :deep(.content)
     margin-bottom 40px
@@ -435,4 +492,3 @@ show()
     input
       padding-left 75px
 </style>
-@/assets/scripts/popup

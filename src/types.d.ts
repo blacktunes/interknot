@@ -1,5 +1,5 @@
 interface MessageBase {
-  user: Character
+  user: number | Character
   text: string
 }
 

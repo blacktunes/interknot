@@ -13,9 +13,14 @@ export const character = reactive<{
 }>({
   game: [
     {
-      id: 1,
+      id: 0,
       name: '匿名',
-      avatar: getAvatar('avatar.webp')
+      avatar: getAvatar('avatar_0.webp')
+    },
+    {
+      id: 1,
+      name: '绳匠',
+      avatar: getAvatar('avatar_1.webp')
     }
   ],
   custom: []

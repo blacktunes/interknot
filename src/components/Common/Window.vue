@@ -1,6 +1,6 @@
 <template>
-  <div class="window-view">
-    <div class="window">
+  <div class="window-view" @click="$emit('close')">
+    <div class="window" @click.stop>
       <div class="header">
         <slot
           name="header"

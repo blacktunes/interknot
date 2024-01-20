@@ -14,14 +14,24 @@
     </div>
     <div class="content">
       <div class="user">
-        <div class="avatar">
-          <img
-            v-if="message.user.avatar"
-            :src="message.user.avatar"
-            alt=""
-          />
-        </div>
-        <span class="ellipsis">{{ message.user.name }}</span>
+        <template v-if="typeof message.user === 'number'">
+          <div class="avatar">
+            <img
+              :src="character.game[message.user].avatar || defaultAvatar"
+              alt=""
+            />
+          </div>
+          <span class="ellipsis">{{ character.game[message.user].name }}</span>
+        </template>
+        <template v-else>
+          <div class="avatar">
+            <img
+              :src="message.user.avatar || defaultAvatar"
+              alt=""
+            />
+          </div>
+          <span class="ellipsis">{{ message.user.name }}</span>
+        </template>
       </div>
       <div class="title">{{ message.title }}</div>
       <div class="text ellipsis">{{ message.text }}</div>
@@ -30,6 +40,8 @@
 </template>
 
 <script lang="ts" setup>
+import { character, defaultAvatar } from '@/store/character'
+
 defineProps<{
   message: Message
 }>()

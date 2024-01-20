@@ -7,7 +7,7 @@ export const setting = reactive<{
   selectID?: number
 }>({
   messageID: undefined,
-  userID: undefined,
+  userID: 1,
   selectID: undefined
 })
 

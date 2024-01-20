@@ -28,7 +28,6 @@ const cols = ref(5)
 
 const setCols = () => {
   const innerWidth = window.innerWidth
-  console.log(innerWidth)
   if (innerWidth > 1000) {
     cols.value = 5
     return
