@@ -153,7 +153,7 @@ import Avatar from '../Common/Avatar.vue'
 import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
 import { setting, input } from '@/store/setting'
-import { compressImage } from '@/assets/scripts/image'
+import { imageCropper } from '@/assets/scripts/image'
 import { closeWindow, openWindow } from '@/assets/scripts/popup'
 import { nextTick, ref } from 'vue'
 import { character } from '@/store/character'
@@ -214,15 +214,11 @@ const updateComment = (e: Event, key: number, defaultText = '空') => {
 }
 
 const onImageClick = () => {
-  const el = document.createElement('input')
-  el.type = 'file'
-  el.accept = 'image/*'
-  el.onchange = async () => {
-    if (el.files?.[0] && currentMessage.value) {
-      currentMessage.value.image = await compressImage(el.files[0])
+  imageCropper().then(({ base64 }) => {
+    if (currentMessage.value) {
+      currentMessage.value.image = base64
     }
-  }
-  el.click()
+  })
 }
 
 const onAvatarClick = (id?: number) => {

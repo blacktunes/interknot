@@ -72,7 +72,7 @@ import Window from '../Common/Window.vue'
 import { setting, input } from '@/store/setting'
 import { character } from '@/store/character'
 import { computed } from 'vue'
-import { compressImage } from '@/assets/scripts/image'
+import { imageCropper } from '@/assets/scripts/image'
 import { currentMessage } from '@/store/message'
 import { closeWindow } from '@/assets/scripts/popup'
 
@@ -115,25 +115,20 @@ const onCharacterClick = (item: Character) => {
 
 const onAddClick = () => {
   const name = prompt('角色名')
-  const level = Number(prompt('角色等级？'))
   if (name !== null && name.length > 0) {
-    setTimeout(() => {
-      const input = document.createElement('input')
-      input.type = 'file'
-      input.accept = 'image/*'
-      input.onchange = async () => {
-        if (input.files?.[0]) {
-          const avatar = await compressImage(input.files[0])
-          character.custom.push({
-            id: Date.now(),
-            name,
-            level: isNaN(level) ? undefined : level,
-            avatar
-          })
-        }
-      }
-      input.click()
-    }, 0)
+    const level = Number(prompt('角色等级？'))
+
+    imageCropper({
+      aspectRatio: 1,
+      maxWidth: 500
+    }).then(({ base64 }) => {
+      character.custom.push({
+        id: Date.now(),
+        name,
+        level: isNaN(level) ? undefined : level,
+        avatar: base64
+      })
+    })
   }
 }
 

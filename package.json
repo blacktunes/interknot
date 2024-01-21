@@ -12,7 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "super-image-cropper": "^1.0.18",
     "vue": "^3.3.4",
+    "vue-picture-cropper": "^0.7.0",
     "wc-flow-layout": "^0.0.5"
   },
   "devDependencies": {

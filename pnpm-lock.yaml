@@ -5,9 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  super-image-cropper:
+    specifier: ^1.0.18
+    version: 1.0.18
   vue:
     specifier: ^3.3.4
     version: 3.3.8(typescript@5.2.2)
+  vue-picture-cropper:
+    specifier: ^0.7.0
+    version: 0.7.0(vue@3.3.8)
   wc-flow-layout:
     specifier: ^0.0.5
     version: 0.0.5
@@ -366,6 +372,12 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@bassist/utils@0.4.0:
+    resolution: {integrity: sha512-aoFTl0jUjm8/tDZodP41wnEkvB+C5O9NFCuYN/ztL6jSUSsuBkXq90/1ifBm1XhV/zySHgLYlU1+tgo3XtQ+nA==}
+    dependencies:
+      '@withtypes/mime': 0.1.2
+    dev: false
 
   /@esbuild/android-arm64@0.18.20:
     resolution: {integrity: sha512-Nz4rJcchGDtENV0eMKUNa6L12zz2zBDXuhj/Vjh18zGqB44Bi7MBMSXjgunJgjRhCmKOjnPuZp4Mb6OKqtMHLQ==}
@@ -1045,6 +1057,12 @@ packages:
     resolution: {integrity: sha512-CPuIReonid9+zOG/CGTT05FXrPYATEqoDGNrEaqS4hwcw5BUNM2FguC0mOwJD4Jr16UpRVl9N0pY3P+srIbqmg==}
     dev: true
 
+  /@withtypes/mime@0.1.2:
+    resolution: {integrity: sha512-PB9BfZGzwblUONJY0LiOwsHCA6uV3DIPj/w9ReekdHxPOl0VdUFgI5s4avKycuuq9Gf5Nz2ZPA2O36GAUzlMPA==}
+    dependencies:
+      mime: 3.0.0
+    dev: false
+
   /acorn-jsx@5.3.2(acorn@8.11.2):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -1311,6 +1329,10 @@ packages:
   /convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
+
+  /cropperjs@1.6.1:
+    resolution: {integrity: sha512-F4wsi+XkDHCOMrHMYjrTEE4QBOrsHHN5/2VsVAaRq8P7E5z7xQpT75S+f/9WikmBEailas3+yo+6zPIomW+NOA==}
+    dev: false
 
   /cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -1691,6 +1713,11 @@ packages:
       flat-cache: 3.2.0
     dev: true
 
+  /file-type@10.11.0:
+    resolution: {integrity: sha512-uzk64HRpUZyTGZtVuvrjP0FYxzQrBf4rojot6J65YMEbwBLB0CWm0CLojVpwpmFmxcE/lkvYICgfcGozbBq6rw==}
+    engines: {node: '>=6'}
+    dev: false
+
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
@@ -1752,6 +1779,20 @@ packages:
     resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
     engines: {node: '>=10'}
     dev: true
+
+  /gif-build-worker-js@1.0.2:
+    resolution: {integrity: sha512-LmWDYwHJ75dQgrwdfgGfN0H3BN1YGR2dvKIFVCK6JEs03ZBBwGBxLMydwWN/TbDi0DnagV202250VQ4DMTZIrA==}
+    dev: false
+
+  /gif.js@0.2.0:
+    resolution: {integrity: sha512-bYxCoT8OZKmbxY8RN4qDiYuj4nrQDTzgLRcFVovyona1PTWNePzI4nzOmotnlOFIzTk/ZxAHtv+TfVLiBWj/hw==}
+    dev: false
+
+  /gifuct-js@2.1.2:
+    resolution: {integrity: sha512-rI2asw77u0mGgwhV3qA+OEgYqaDn5UNqgs+Bx0FGwSpuqfYn+Ir6RQY5ENNQ8SbIiG/m5gVa7CD5RriO4f4Lsg==}
+    dependencies:
+      js-binary-schema-parser: 2.0.3
+    dev: false
 
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -1892,6 +1933,13 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /image-type@4.1.0:
+    resolution: {integrity: sha512-CFJMJ8QK8lJvRlTCEgarL4ro6hfDQKif2HjSvYCdQZESaIPV4v9imrf7BQHK+sQeTeNeMpWciR9hyC/g8ybXEg==}
+    engines: {node: '>=6'}
+    dependencies:
+      file-type: 10.11.0
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -2011,6 +2059,10 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
+
+  /js-binary-schema-parser@2.0.3:
+    resolution: {integrity: sha512-xezGJmOb4lk/M1ZZLTR/jaBHQ4gG/lqQnJqdIv4721DMggsa1bDVlHXNeHYogaIEHD9vCRv0fcL4hMA+Coarkg==}
+    dev: false
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -2157,6 +2209,12 @@ packages:
       braces: 3.0.2
       picomatch: 2.3.1
     dev: true
+
+  /mime@3.0.0:
+    resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    dev: false
 
   /mimic-fn@2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
@@ -2828,6 +2886,16 @@ packages:
       - supports-color
     dev: true
 
+  /super-image-cropper@1.0.18:
+    resolution: {integrity: sha512-x36nt6DV6jdQqXKyNRFxXWCxnR1+Ld3DTISBWPxhHRexhP8rlxV8KQYlVwgQT6cVTO933A5zjnSyHyfQALJdmA==}
+    dependencies:
+      cropperjs: 1.6.1
+      gif-build-worker-js: 1.0.2
+      gif.js: 0.2.0
+      gifuct-js: 2.1.2
+      image-type: 4.1.0
+    dev: false
+
   /supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
     engines: {node: '>=0.8.0'}
@@ -3026,6 +3094,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-picture-cropper@0.7.0(vue@3.3.8):
+    resolution: {integrity: sha512-NF7+Dgso6d0GB16E5d/BbrcTIHm1VWz8dS3IjLhoBl+ZeC+yDA46CyJphQuO32SisaPmrKHN8VbiE2LgAfhnkQ==}
+    peerDependencies:
+      vue: '>=3.2.13'
+    dependencies:
+      '@bassist/utils': 0.4.0
+      cropperjs: 1.6.1
+      vue: 3.3.8(typescript@5.2.2)
+    dev: false
 
   /vue-template-compiler@2.7.15:
     resolution: {integrity: sha512-yQxjxMptBL7UAog00O8sANud99C6wJF+7kgbcwqkvA38vCGF7HWE66w0ZFnS/kX5gSoJr/PQ4/oS3Ne2pW37Og==}
