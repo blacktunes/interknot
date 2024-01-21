@@ -10,6 +10,7 @@
         :message="item"
         :key="index"
         @click="openWindow('message', item.id)"
+        @delete="handelDelete(item.id)"
       />
     </wc-flow-layout>
   </div>
@@ -19,7 +20,7 @@
 import 'wc-flow-layout'
 import Card from './Waterfall/Card.vue'
 import { computed, ref } from 'vue'
-import { message } from '@/store/message'
+import { getMessageIndex, message } from '@/store/message'
 import { openWindow } from '@/assets/scripts/popup'
 
 const list = computed(() => [...message.list].sort((a, b) => b.time - a.time))
@@ -41,6 +42,16 @@ const setCols = () => {
 setCols()
 
 window.onresize = setCols
+
+const handelDelete = (id: number) => {
+  const flag = confirm('是否删除该帖？')
+  if (flag) {
+    const index = getMessageIndex(id)
+    if (index !== -1) {
+      message.list.splice(index, 1)
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>

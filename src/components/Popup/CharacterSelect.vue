@@ -37,6 +37,23 @@
           />
         </div>
         <div class="name">{{ item.name }}</div>
+        <div
+          class="del"
+          @click.stop="handelDelete(index)"
+        >
+          <svg
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+          >
+            <path
+              d="M328.777143 377.904762l31.719619 449.657905h310.662095l31.695238-449.657905h73.264762L744.106667 832.707048a73.142857 73.142857 0 0 1-72.94781 67.998476H360.496762a73.142857 73.142857 0 0 1-72.94781-68.022857L255.488 377.904762h73.289143z m159.207619 22.649905v341.333333h-73.142857v-341.333333h73.142857z m133.729524 0v341.333333h-73.142857v-341.333333h73.142857zM146.285714 256h731.428572v73.142857H146.285714v-73.142857z m518.265905-121.904762v73.142857h-292.571429v-73.142857h292.571429z"
+              fill="#fff"
+            ></path>
+          </svg>
+        </div>
       </div>
     </div>
     <template #footer>
@@ -121,7 +138,7 @@ const onAddClick = () => {
 }
 
 const handelDelete = (index: number) => {
-  const flag = confirm('是否删除该用户？')
+  const flag = confirm('是否删除该角色？')
   if (flag) {
     character.custom.splice(index, 1)
   }
@@ -148,6 +165,8 @@ const handelDelete = (index: number) => {
   padding 10px 0
 
   .character
+    overflow hidden
+    position relative
     box-sizing border-box
     display flex
     justify-content center
@@ -156,17 +175,25 @@ const handelDelete = (index: number) => {
     width 18%
     padding 10px
     margin 1%
+    border 2px solid transparent
     border-radius 20px
     user-select none
     cursor pointer
+    transition 0.3s
+
+    &:hover
+      border-color #a3c101
+
+      .del
+        opacity 1
 
     &:last-child
       margin-bottom 45px
 
     .avatar
       position relative
-      width 80%
-      padding-bottom 80%
+      width 100%
+      padding-bottom 100%
       box-sizing border-box
       border 2px solid #999
       border-radius 50%
@@ -191,6 +218,26 @@ const handelDelete = (index: number) => {
       text-overflow ellipsis
       white-space nowrap
       width 100%
+
+    .del
+      display flex
+      align-items center
+      justify-content center
+      position absolute
+      top -15px
+      right -15px
+      width 50px
+      height 50px
+      background-color #000
+      border-radius 50%
+      opacity 0
+      transition 0.3s
+
+      svg
+        margin 10px 12.5px 0 0
+
+      &:hover
+        opacity 1
 
 .add
   display flex
@@ -229,7 +276,7 @@ const handelDelete = (index: number) => {
     .character
       width 31%
 
-@media screen and (min-width 1000px)
+@media screen and (min-width 1200px)
   .scroll-view
     .character
       width 12%
