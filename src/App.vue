@@ -1,43 +1,23 @@
 <template>
   <div id="main">
-    <Component
-      v-for="(item, index) in components"
-      :key="index"
-      :is="item"
-    />
-    <Component
-      v-for="item in popupComponents"
-      :key="item[0]"
-      :is="item[1]"
-    />
+    <Header />
+    <Waterfall />
+    <TransitionGroup name="fade">
+      <Component
+        v-for="item in popupComponents"
+        :key="item[0]"
+        :is="item[1]"
+      />
+    </TransitionGroup>
   </div>
   <Loading />
 </template>
 
 <script lang="ts" setup>
-import { defineComponent } from 'vue'
-import type { Component } from 'vue'
 import { popupComponents } from './assets/scripts/popup'
+import Header from './components/Header.vue'
+import Waterfall from './components/Waterfall.vue'
 import Loading from './components/Loading.vue'
-
-// 动态加载所有组件
-const components: Component[] = []
-const modules = {
-  ...import.meta.glob<{ default: Component }>(
-    [
-      // 组件位置
-      './components/*.vue',
-      '!./components/Loading.vue'
-    ],
-    {
-      eager: true,
-      import: 'default'
-    }
-  )
-}
-for (const i in modules) {
-  components.push(defineComponent(modules[i]))
-}
 </script>
 
 <style lang="stylus" scoped>
