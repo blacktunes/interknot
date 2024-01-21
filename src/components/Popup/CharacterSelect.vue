@@ -1,6 +1,7 @@
 <template>
   <Window
     title="更换角色"
+    :bg="!currentMessage"
     @close="closeWindow('select')"
   >
     <div class="scroll-view">
@@ -63,9 +64,17 @@ const highlightID = computed(() => {
     if (setting.selectID === -1) {
       return input.commentUser.id
     } else if (setting.selectID === undefined) {
-      return currentMessage.value.user.id
+      if (typeof currentMessage.value.user === 'number') {
+        return character.game[currentMessage.value.user].id
+      } else {
+        return currentMessage.value.user.id
+      }
     } else {
-      return currentMessage.value.comments[setting.selectID].user.id
+      if (typeof currentMessage.value.comments[setting.selectID].user === 'number') {
+        return character.game[currentMessage.value.comments[setting.selectID].user as number].id
+      } else {
+        return (currentMessage.value.comments[setting.selectID].user as Character).id
+      }
     }
   } else {
     return setting.userID
