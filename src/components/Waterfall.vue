@@ -4,6 +4,7 @@
       :gap="20"
       :cols="cols"
       class="waterfall"
+      v-if="list.length > 0"
     >
       <Card
         v-for="(item, index) in list"
@@ -13,6 +14,16 @@
         @delete="handelDelete(item.id)"
       />
     </wc-flow-layout>
+    <div
+      class="empty-list"
+      v-else
+    >
+      <img
+        src="@/assets/images/empty.webp"
+        alt=""
+      />
+      <span>什么都没有</span>
+    </div>
   </div>
 </template>
 
@@ -60,4 +71,19 @@ const handelDelete = (id: number) => {
   overflow scroll
   width 100%
   border-radius 10px
+
+  .empty-list
+    display flex
+    align-items center
+    justify-content center
+    flex-direction column
+    width 100%
+    height 80%
+    color #666
+    font-size 20px
+    text-align center
+    user-select none
+
+    img
+      max-width 300px
 </style>
