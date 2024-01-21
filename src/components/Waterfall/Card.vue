@@ -56,6 +56,7 @@ defineProps<{
   border-radius 20px 20px 5px 20px
   border 5px solid #000
   cursor pointer
+  transition all 0.3s
 
   &:hover
     border-color #a3bc22

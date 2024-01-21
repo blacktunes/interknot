@@ -29,7 +29,7 @@ export const message = reactive<{
       time: 1,
       comments: [
         {
-          user: 0,
+          user: 1,
           text: '这是回复这是回复这是回复这是回复这是回复'
         },
         {
