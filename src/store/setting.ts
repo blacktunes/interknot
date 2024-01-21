@@ -5,10 +5,12 @@ export const setting = reactive<{
   messageID?: number
   userID?: number
   selectID?: number
+  loading: boolean
 }>({
   messageID: undefined,
   userID: 1,
-  selectID: undefined
+  selectID: undefined,
+  loading: true
 })
 
 export const input = reactive<{

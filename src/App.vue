@@ -11,12 +11,14 @@
       :is="item[1]"
     />
   </div>
+  <Loading />
 </template>
 
 <script lang="ts" setup>
 import { defineComponent } from 'vue'
 import type { Component } from 'vue'
 import { popupComponents } from './assets/scripts/popup'
+import Loading from './components/Loading.vue'
 
 // 动态加载所有组件
 const components: Component[] = []
@@ -25,8 +27,7 @@ const modules = {
     [
       // 组件位置
       './components/*.vue',
-      '!./components/Message.vue',
-      '!./components/CharacterSelect.vue'
+      '!./components/Loading.vue'
     ],
     {
       eager: true,
