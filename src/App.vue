@@ -1,5 +1,8 @@
 <template>
-  <div id="main">
+  <div
+    id="main"
+    @contextmenu.prevent
+  >
     <Header />
     <Waterfall />
     <TransitionGroup name="fade">

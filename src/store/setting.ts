@@ -2,15 +2,13 @@ import { reactive } from 'vue'
 import { character } from './character'
 
 export const setting = reactive<{
-  messageID?: number
-  userID?: number
-  selectID?: number
   loading: boolean
+  userID: number
+  messageID?: number
+  selectID?: number
 }>({
-  messageID: undefined,
-  userID: 1,
-  selectID: undefined,
-  loading: true
+  loading: true,
+  userID: 1
 })
 
 export const input = reactive<{
