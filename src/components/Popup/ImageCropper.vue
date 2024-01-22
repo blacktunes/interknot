@@ -1,46 +1,43 @@
 <template>
-  <Transition
-    name="fade"
-    appear
+  <div
+    class="cropper"
+    @click.stop
+    v-if="cropperSetting.img"
   >
-    <div
-      class="cropper"
-      @click.stop
-    >
-      <VuePictureCropper
-        :img="cropperSetting.img"
-        :options="{
-          viewMode: 1,
-          movable: false,
-          scalable: false,
-          zoomOnWheel: false,
-          autoCrop: cropperSetting.aspectRatio !== undefined,
-          autoCropArea: 1,
-          aspectRatio: cropperSetting.aspectRatio
-        }"
-      />
-      <div class="btn-list">
-        <div
-          class="btn"
-          @click.stop="cropperClose"
-        >
-          取消
-        </div>
-        <div
-          class="btn"
-          @click.stop="onCropper"
-        >
-          确认
-        </div>
+    <VuePictureCropper
+      :img="cropperSetting.img"
+      :options="{
+        viewMode: 1,
+        movable: false,
+        scalable: false,
+        zoomOnWheel: false,
+        autoCrop: cropperSetting.aspectRatio !== undefined,
+        autoCropArea: 1,
+        aspectRatio: cropperSetting.aspectRatio
+      }"
+    />
+    <div class="btn-list">
+      <div
+        class="btn"
+        @click.stop="closeWindow('cropper')"
+      >
+        取消
+      </div>
+      <div
+        class="btn"
+        @click.stop="onCropper"
+      >
+        确认
       </div>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import VuePictureCropper, { cropper } from 'vue-picture-cropper'
 import { SuperImageCropper } from 'super-image-cropper'
-import { cropper as cropperSetting, cropperClose } from '@/store/cropper'
+import { cropper as cropperSetting } from '@/store/cropper'
+import { enterCallback, closeWindow } from '@/assets/scripts/popup'
 
 const imageCropper = new SuperImageCropper()
 
@@ -54,11 +51,11 @@ const onCropper = async () => {
       })) as string
     )
   }
-  cropperClose()
+  closeWindow('cropper')
   return true
 }
 
-cropperSetting.cb = onCropper
+enterCallback.cropper = onCropper
 </script>
 
 <style lang="stylus" scoped>

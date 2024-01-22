@@ -72,9 +72,8 @@ import Window from '../Common/Window.vue'
 import { setting, input } from '@/store/setting'
 import { character } from '@/store/character'
 import { computed } from 'vue'
-import { imageCropper } from '@/assets/scripts/image'
 import { currentMessage } from '@/store/message'
-import { closeWindow } from '@/assets/scripts/popup'
+import { closeWindow, openWindow } from '@/assets/scripts/popup'
 
 const highlightID = computed(() => {
   if (currentMessage.value) {
@@ -118,7 +117,7 @@ const onAddClick = () => {
   if (name !== null && name.length > 0) {
     const level = Number(prompt('角色等级？'))
 
-    imageCropper({
+    openWindow('cropper', {
       aspectRatio: 1,
       maxWidth: 500
     }).then(({ base64 }) => {

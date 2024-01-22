@@ -1,3 +1,5 @@
+type Unpacked<T> = T extends Promise<infer U> ? U : T
+
 interface MessageBase {
   user: number | Character
   text: string

@@ -1,19 +1,12 @@
-import { closeWindow, openWindow } from '@/assets/scripts/popup'
 import { nextTick, reactive } from 'vue'
 
 export const cropper = reactive<{
-  show: boolean
   img: string
   aspectRatio?: number
   maxWidth?: number
   fn?: (img: string) => void
-  cb?: () => Promise<boolean>
 }>({
-  show: false,
-  img: '',
-  aspectRatio: undefined,
-  fn: undefined,
-  cb: undefined
+  img: ''
 })
 
 export const cropperOpen = (img: string, config?: { aspectRatio?: number; maxWidth?: number }) => {
@@ -21,7 +14,6 @@ export const cropperOpen = (img: string, config?: { aspectRatio?: number; maxWid
     cropper.img = img
     cropper.aspectRatio = config?.aspectRatio
     cropper.maxWidth = config?.maxWidth
-    openWindow('cropper')
     cropper.fn = (str) => resolve(str)
   })
 }
@@ -32,5 +24,4 @@ export const cropperClose = async () => {
   cropper.fn = undefined
   cropper.aspectRatio = undefined
   cropper.maxWidth = undefined
-  closeWindow('cropper')
 }

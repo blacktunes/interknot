@@ -133,6 +133,7 @@
         <input
           type="text"
           v-model="input.commentText"
+          @keydown.esc.stop="blur"
         />
         <button
           :disabled="input.commentText.length === 0"
@@ -153,7 +154,6 @@ import Avatar from '../Common/Avatar.vue'
 import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
 import { setting, input } from '@/store/setting'
-import { imageCropper } from '@/assets/scripts/image'
 import { closeWindow, openWindow } from '@/assets/scripts/popup'
 import { nextTick, ref } from 'vue'
 import { character } from '@/store/character'
@@ -214,7 +214,7 @@ const updateComment = (e: Event, key: number, defaultText = '空') => {
 }
 
 const onImageClick = () => {
-  imageCropper().then(({ base64 }) => {
+  openWindow('cropper').then(({ base64 }) => {
     if (currentMessage.value) {
       currentMessage.value.image = base64
     }
