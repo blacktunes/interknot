@@ -1,7 +1,6 @@
 <template>
   <div
     class="window-view"
-    :class="{ 'window-bg': bg }"
     @click="$emit('close')"
   >
     <div
@@ -55,11 +54,9 @@ withDefaults(
   defineProps<{
     title?: string
     height?: string
-    bg?: boolean
   }>(),
   {
     height: '50%',
-    bg: true
   }
 )
 
@@ -73,30 +70,6 @@ defineExpose({ contentDom })
 </script>
 
 <style lang="stylus" scoped>
-.window-bg
-  &:before
-    z-index -2
-    content ''
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    left 0
-    backdrop-filter blur(2px)
-    background-color rgba(0, 0, 0, 0.5)
-
-  &:after
-    z-index -1
-    content ''
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    left 0
-    background linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent)
-    background-size 8px 8px
-    opacity 0.5
-
 .window-view
   z-index 10
   position fixed

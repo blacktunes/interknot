@@ -1,151 +1,154 @@
 <template>
-  <Window
-    v-if="currentMessage"
-    ref="windowDom"
-    @close="closeWindow('message')"
-  >
-    <template #header>
-      <div
-        class="user"
-        @click="onAvatarClick()"
-      >
-        <template v-if="typeof currentMessage.user === 'number'">
-          <Avatar :src="character.game[currentMessage.user].avatar" />
-          <div class="name">
-            <span>{{ character.game[currentMessage.user].name }}</span>
-            <Level :level="character.game[currentMessage.user].level" /></div
-        ></template>
-        <template v-else>
-          <Avatar :src="currentMessage.user.avatar" />
-          <div class="name">
-            <span>{{ currentMessage.user.name }}</span>
-            <Level :level="currentMessage.user.level" />
-          </div>
-        </template>
-      </div>
-    </template>
-    <div
-      class="image"
-      @click="onImageClick"
+  <Transition name="fade">
+    <Window
+      v-if="props.index !== -1 && currentMessage"
+      :style="{ zIndex: 10 + index }"
+      @close="close"
+      ref="windowDom"
     >
-      <img
-        v-if="currentMessage.image"
-        :src="currentMessage.image"
-        alt=""
-      />
-      <img
-        v-else
-        src="@/assets/images/empty.webp"
-        alt=""
-      />
-    </div>
-    <div
-      class="message"
-      ref="messageDom"
-    >
-      <div
-        class="title"
-        contenteditable
-        @keydown.enter.prevent.stop="blur"
-        @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
-        @focus="reset = false"
-        @blur="update($event, 'title', '无标题')"
-      >
-        {{ currentMessage.title }}
-      </div>
-      <div
-        class="text"
-        contenteditable
-        @keydown.enter.prevent.stop="blur"
-        @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
-        @focus="reset = false"
-        @blur="update($event, 'text', '暂无内容')"
-      >
-        {{ currentMessage.text }}
-      </div>
-      <div v-if="currentMessage.comments.length > 0">
+      <template #header>
         <div
-          class="comment"
-          v-for="(comment, index) in currentMessage.comments"
-          :key="index"
+          class="user"
+          @click="onAvatarClick()"
         >
-          <template v-if="typeof comment.user === 'number'">
-            <Avatar
-              class="comment-avatar"
-              :src="character.game[comment.user].avatar"
-              @click.stop="openWindow('select', index)"
-            />
-          </template>
+          <template v-if="typeof currentMessage.user === 'number'">
+            <Avatar :src="character.game[currentMessage.user].avatar" />
+            <div class="name">
+              <span>{{ character.game[currentMessage.user].name }}</span>
+              <Level :level="character.game[currentMessage.user].level" /></div
+          ></template>
           <template v-else>
-            <Avatar
-              class="comment-avatar"
-              :src="comment.user.avatar"
-              @click.stop="openWindow('select', index)"
-            />
-          </template>
-          <div class="comment-content">
-            <div
-              class="comment-name"
-              @click.stop="openWindow('select', index)"
-            >
-              <span>
-                {{ checkOwner(comment.user) }}
-                <template v-if="typeof comment.user === 'number'">
-                  {{ character.game[comment.user].name }}
-                </template>
-                <template v-else>
-                  {{ comment.user.name }}
-                </template>
-              </span>
-              <div class="floor">{{ index + 1 }}F</div>
+            <Avatar :src="currentMessage.user.avatar" />
+            <div class="name">
+              <span>{{ currentMessage.user.name }}</span>
+              <Level :level="currentMessage.user.level" />
             </div>
-            <div
-              class="comment-text"
-              contenteditable
-              @keydown.enter.prevent.stop="blur"
-              @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
-              @focus="reset = false"
-              @blur="updateComment($event, index)"
-            >
-              {{ comment.text }}
+          </template>
+        </div>
+      </template>
+      <div
+        class="image"
+        @click="onImageClick"
+      >
+        <img
+          v-if="currentMessage.image"
+          :src="currentMessage.image"
+          alt=""
+        />
+        <img
+          v-else
+          src="@/assets/images/empty.webp"
+          alt=""
+        />
+      </div>
+      <div
+        class="message"
+        ref="messageDom"
+      >
+        <div
+          class="title"
+          contenteditable
+          @keydown.enter.prevent.stop="blur"
+          @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
+          @focus="reset = false"
+          @blur="update($event, 'title', '无标题')"
+        >
+          {{ currentMessage.title }}
+        </div>
+        <div
+          class="text"
+          contenteditable
+          @keydown.enter.prevent.stop="blur"
+          @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
+          @focus="reset = false"
+          @blur="update($event, 'text', '暂无内容')"
+        >
+          {{ currentMessage.text }}
+        </div>
+        <div v-if="currentMessage.comments.length > 0">
+          <div
+            class="comment"
+            v-for="(comment, index) in currentMessage.comments"
+            :key="index"
+          >
+            <template v-if="typeof comment.user === 'number'">
+              <Avatar
+                class="comment-avatar"
+                :src="character.game[comment.user].avatar"
+                @click.stop="openWindow('select', index)"
+              />
+            </template>
+            <template v-else>
+              <Avatar
+                class="comment-avatar"
+                :src="comment.user.avatar"
+                @click.stop="openWindow('select', index)"
+              />
+            </template>
+            <div class="comment-content">
+              <div
+                class="comment-name"
+                @click.stop="openWindow('select', index)"
+              >
+                <span>
+                  {{ checkOwner(comment.user) }}
+                  <template v-if="typeof comment.user === 'number'">
+                    {{ character.game[comment.user].name }}
+                  </template>
+                  <template v-else>
+                    {{ comment.user.name }}
+                  </template>
+                </span>
+                <div class="floor">{{ index + 1 }}F</div>
+              </div>
+              <div
+                class="comment-text"
+                contenteditable
+                @keydown.enter.prevent.stop="blur"
+                @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
+                @focus="reset = false"
+                @blur="updateComment($event, index)"
+              >
+                {{ comment.text }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="empty-comment"
-        v-else
-      >
-        暂时没有人回复楼主···
-      </div>
-    </div>
-    <template #footer>
-      <form
-        class="input"
-        :class="{ show: input.commentText.length > 0 }"
-        @submit.prevent="sendComment"
-      >
-        <Avatar
-          class="input-avatar"
-          :src="input.commentUser?.avatar"
-          @click.stop="onAvatarClick(-1)"
-        />
-        <input
-          type="text"
-          v-model="input.commentText"
-          @keydown.esc.stop="blur"
-        />
-        <button
-          :disabled="input.commentText.length === 0"
-          class="btn"
-          :class="{ disabled: input.commentText.length === 0 }"
-          type="submit"
+        <div
+          class="empty-comment"
+          v-else
         >
-          回复
-        </button>
-      </form>
-    </template>
-  </Window>
+          暂时没有人回复楼主···
+        </div>
+      </div>
+      <template #footer>
+        <form
+          class="input"
+          :class="{ show: input.commentText.length > 0 }"
+          @submit.prevent="sendComment"
+        >
+          <Avatar
+            class="input-avatar"
+            :src="input.commentUser?.avatar"
+            @click.stop="onAvatarClick(-1)"
+          />
+          <input
+            type="text"
+            v-model="input.commentText"
+            @keydown.esc.stop="blur"
+          />
+          <button
+            :disabled="input.commentText.length === 0"
+            class="btn"
+            :class="{ disabled: input.commentText.length === 0 }"
+            type="submit"
+          >
+            回复
+          </button>
+        </form>
+      </template>
+    </Window>
+  </Transition>
 </template>
 
 <script lang="ts" setup>
@@ -154,9 +157,22 @@ import Avatar from '../Common/Avatar.vue'
 import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
 import { setting, input } from '@/store/setting'
-import { closeWindow, openWindow } from '@/assets/scripts/popup'
+import { openWindow } from '@/assets/scripts/popup'
 import { nextTick, ref } from 'vue'
 import { character } from '@/store/character'
+
+const props = defineProps<{
+  name: string
+  index: number
+}>()
+
+const emits = defineEmits<{
+  (event: 'close', name: string): void
+}>()
+
+const close = () => {
+  emits('close', props.name)
+}
 
 const checkOwner = (user: number | Character) => {
   if (!currentMessage.value) return

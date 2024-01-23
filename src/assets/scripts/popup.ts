@@ -1,25 +1,18 @@
 import CharacterSelectVue from '@/components/Popup/CharacterSelect.vue'
-import ImageCropperVue from '@/components/Popup/ImageCropper.vue'
+import CropperVue from '@/components/Popup/Cropper/Cropper.vue'
 import MessageVue from '@/components/Popup/Message.vue'
-import { cropperClose, cropperOpen } from '@/store/cropper'
-import { computed, markRaw, ref, type Component } from 'vue'
+import { cropperOpen, cropperClose } from '@/components/Popup/Cropper/cropper'
 import { setting } from '../../store/setting'
-import { imageCompress } from './image'
+import { imageCompress } from './images'
+import { computed, markRaw, ref, reactive, type Component, type ComputedRef } from 'vue'
 
 const components = {
   message: MessageVue,
   select: CharacterSelectVue,
-  cropper: ImageCropperVue
+  cropper: CropperVue
 }
-type ComponentKeys = keyof typeof components
 
-type Callbacks = Partial<Record<ComponentKeys, (...args: any[]) => any>>
-
-const callbacks: {
-  open: Callbacks
-  close: Callbacks
-  enter: Partial<Record<ComponentKeys, () => Promise<boolean>>>
-} = {
+const callbacks = {
   open: {
     message: (id?: number) => {
       setting.messageID = id
@@ -35,7 +28,10 @@ const callbacks: {
         el.onchange = async () => {
           if (el.files?.[0]) {
             resolve({
-              base64: await cropperOpen(await imageCompress(el.files[0]), config),
+              base64: await cropperOpen(
+                await imageCompress(el.files[0], config?.maxWidth),
+                config?.aspectRatio
+              ),
               raw: el.files[0]
             })
           }
@@ -51,27 +47,42 @@ const callbacks: {
     select: () => {
       setting.selectID = undefined
     },
-    cropper: () => {
-      cropperClose()
-    }
+    cropper: cropperClose
   },
   enter: {}
 }
 
-export const enterCallback = callbacks.enter
-
 /*------------------------------------------------------------*/
+type ComponentKeys = keyof typeof components
+
+export const popupComponents: Record<
+  string,
+  {
+    compontnt: Component
+    index: ComputedRef<number>
+  }
+> = reactive({})
+// 正在显示的组件
+export const popup = ref<Set<ComponentKeys>>(new Set())
+const _popup = computed(() => Array.from(popup.value))
+// 最后打开的组件
+export const currentComponent = computed<ComponentKeys | undefined>(
+  () => _popup.value[_popup.value.length - 1]
+)
+// 组件的确认事件
+export const enterCallback: Partial<Record<ComponentKeys, () => boolean | Promise<boolean>>> =
+  callbacks.enter
 
 let i: ComponentKeys
 for (i in components) {
-  components[i] = markRaw(components[i])
+  const key = i
+  popupComponents[i] = {
+    compontnt: markRaw(components[i]),
+    index: computed(() => {
+      return _popup.value.indexOf(key)
+    })
+  }
 }
-
-export const popupComponents = ref<Map<string, Component>>(new Map())
-
-export const currentComponent = computed(
-  () => Array.from(popupComponents.value.keys()).pop() as ComponentKeys | undefined
-)
 
 namespace Open {
   export type type = Required<typeof callbacks.open>
@@ -87,10 +98,10 @@ export const openWindow = async <T extends ComponentKeys>(
   key: T,
   ...args: Open.args<T>
 ): Promise<Open.result<T>> => {
-  popupComponents.value.set(key, components[key])
+  popup.value.add(key)
   let res
   if (key in callbacks.open) {
-    res = await callbacks.open[key]?.(...args)
+    res = await (callbacks.open[key as Open.keys] as (...args: any[]) => any)(...args)
   }
   return res
 }
@@ -109,10 +120,10 @@ export const closeWindow = async <T extends ComponentKeys>(
   key: T,
   ...args: Close.args<T>
 ): Promise<Close.result<T>> => {
-  popupComponents.value.delete(key)
+  popup.value.delete(key)
   let res
   if (key in callbacks.close) {
-    res = await callbacks.close[key]?.(...args)
+    res = await (callbacks.close[key as Close.keys] as (...args: any[]) => any)(...args)
   }
   return res
 }

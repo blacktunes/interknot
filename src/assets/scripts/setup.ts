@@ -1,5 +1,5 @@
 import { IndexedDB } from './indexedDB'
-import { urlToBase64 } from './image'
+import { urlToBase64 } from './images'
 import { message } from '@/store/message'
 import { character } from '@/store/character'
 import { setting } from '@/store/setting'

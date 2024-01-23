@@ -5,8 +5,9 @@ document.addEventListener('keydown', async (e) => {
   if (setting.loading) return
   switch (e.key) {
     case 'Enter':
-      if (currentComponent.value === 'cropper') {
-        enterCallback.cropper?.()
+      if (currentComponent.value && enterCallback[currentComponent.value]) {
+        e.preventDefault()
+        enterCallback[currentComponent.value]?.()
       }
       return
     case 'Escape':

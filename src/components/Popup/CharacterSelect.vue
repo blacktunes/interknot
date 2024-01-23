@@ -1,70 +1,74 @@
 <template>
-  <Window
-    title="更换角色"
-    :bg="!currentMessage"
-    @close="closeWindow('select')"
-  >
-    <div class="scroll-view">
-      <div
-        v-for="item in character.game"
-        :key="item.id"
-        class="character"
-        :class="{ highlight: item.id === highlightID }"
-        :title="item.name"
-        @click="onCharacterClick(item)"
-      >
-        <div class="avatar">
-          <img
-            :src="item.avatar"
-            alt=""
-          />
-        </div>
-        <div class="name">{{ item.name }}</div>
-      </div>
-      <div
-        v-for="(item, index) in character.custom"
-        :key="item.id"
-        class="character"
-        :class="{ highlight: item.id === highlightID }"
-        :title="item.name"
-        @click="onCharacterClick(item)"
-        @contextmenu.prevent="handelDelete(index)"
-      >
-        <div class="avatar">
-          <img
-            :src="item.avatar"
-            alt=""
-          />
-        </div>
-        <div class="name">{{ item.name }}</div>
+  <Transition name="fade">
+    <Window
+      v-if="props.index !== -1"
+      :style="{ zIndex: 10 + index }"
+      @close="close"
+      title="更换角色"
+      :bg="!currentMessage"
+    >
+      <div class="scroll-view">
         <div
-          class="del"
-          @click.stop="handelDelete(index)"
+          v-for="item in character.game"
+          :key="item.id"
+          class="character"
+          :class="{ highlight: item.id === highlightID }"
+          :title="item.name"
+          @click="onCharacterClick(item)"
         >
-          <svg
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
+          <div class="avatar">
+            <img
+              :src="item.avatar"
+              alt=""
+            />
+          </div>
+          <div class="name">{{ item.name }}</div>
+        </div>
+        <div
+          v-for="(item, index) in character.custom"
+          :key="item.id"
+          class="character"
+          :class="{ highlight: item.id === highlightID }"
+          :title="item.name"
+          @click="onCharacterClick(item)"
+          @contextmenu.prevent="handelDelete(index)"
+        >
+          <div class="avatar">
+            <img
+              :src="item.avatar"
+              alt=""
+            />
+          </div>
+          <div class="name">{{ item.name }}</div>
+          <div
+            class="del"
+            @click.stop="handelDelete(index)"
           >
-            <path
-              d="M328.777143 377.904762l31.719619 449.657905h310.662095l31.695238-449.657905h73.264762L744.106667 832.707048a73.142857 73.142857 0 0 1-72.94781 67.998476H360.496762a73.142857 73.142857 0 0 1-72.94781-68.022857L255.488 377.904762h73.289143z m159.207619 22.649905v341.333333h-73.142857v-341.333333h73.142857z m133.729524 0v341.333333h-73.142857v-341.333333h73.142857zM146.285714 256h731.428572v73.142857H146.285714v-73.142857z m518.265905-121.904762v73.142857h-292.571429v-73.142857h292.571429z"
-              fill="#fff"
-            ></path>
-          </svg>
+            <svg
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+            >
+              <path
+                d="M328.777143 377.904762l31.719619 449.657905h310.662095l31.695238-449.657905h73.264762L744.106667 832.707048a73.142857 73.142857 0 0 1-72.94781 67.998476H360.496762a73.142857 73.142857 0 0 1-72.94781-68.022857L255.488 377.904762h73.289143z m159.207619 22.649905v341.333333h-73.142857v-341.333333h73.142857z m133.729524 0v341.333333h-73.142857v-341.333333h73.142857zM146.285714 256h731.428572v73.142857H146.285714v-73.142857z m518.265905-121.904762v73.142857h-292.571429v-73.142857h292.571429z"
+                fill="#fff"
+              ></path>
+            </svg>
+          </div>
         </div>
       </div>
-    </div>
-    <template #footer>
-      <div
-        class="add"
-        @click="onAddClick"
-      >
-        新角色
-      </div>
-    </template>
-  </Window>
+      <template #footer>
+        <div
+          class="add"
+          @click="onAddClick"
+        >
+          新角色
+        </div>
+      </template>
+    </Window>
+  </Transition>
 </template>
 
 <script lang="ts" setup>
@@ -74,6 +78,19 @@ import { character } from '@/store/character'
 import { computed } from 'vue'
 import { currentMessage } from '@/store/message'
 import { closeWindow, openWindow } from '@/assets/scripts/popup'
+
+const props = defineProps<{
+  name: string
+  index: number
+}>()
+
+const emits = defineEmits<{
+  (event: 'close', name: string): void
+}>()
+
+const close = () => {
+  emits('close', props.name)
+}
 
 const highlightID = computed(() => {
   if (currentMessage.value) {
