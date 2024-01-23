@@ -5,8 +5,8 @@ import { character } from '@/store/character'
 import { setting } from '@/store/setting'
 
 new IndexedDB('zzz-interknot', '绳网')
-  .add(message, 'list')
-  .add(character, 'custom')
+  .add({ data: message, key: 'list', name: 'message' })
+  .add({ data: character, key: 'custom', name: 'character' })
   .save()
   .finally(() => {
     setting.loading = false

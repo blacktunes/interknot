@@ -5,32 +5,67 @@ export class IndexedDB {
     public readonly name: string,
     public readonly alias?: string
   ) {}
-  private DBList: [{ [name: string]: any }, string][] = []
+  private DBList: Record<
+    string,
+    {
+      data: Record<string, any>
+      key: string
+      cb?: () => void
+    }
+  > = {}
   private hasDB = true
   db?: IDBDatabase
 
-  private setWatch = (index: number) => {
-    watch(this.DBList[index][0][this.DBList[index][1]], () => {
+  private index = 0
+
+  private setWatch = (key: string) => {
+    this.DBList[key]?.cb?.()
+    watch(this.DBList[key].data[this.DBList[key].key], () => {
       nextTick(() => {
-        this.updateDB(index)
+        this.updateDB(key)
       })
     })
   }
 
-  private updateDB = (index: number) => {
+  private updateDB = (key: string) => {
     if (this.db) {
       this.db
         .transaction('data', 'readwrite')
         .objectStore('data')
-        .put({
-          id: index,
-          data: JSON.parse(JSON.stringify(toRaw(this.DBList[index][0][this.DBList[index][1]])))
-        })
+        .put(JSON.parse(JSON.stringify(toRaw(this.DBList[key].data[this.DBList[key].key]))), key)
     }
   }
 
-  add = <T extends { [name: string]: any }, K extends keyof T & string>(obj: T, key: K) => {
-    this.DBList.push([obj, key])
+  add = <T extends { [name: string]: any }, K extends keyof T & string>(data: {
+    data: T
+    key: K
+    name?: string
+    cb?: () => void
+  }) => {
+    if (data.name) {
+      if (!(data.name in this.DBList)) {
+        this.DBList[data.name] = {
+          data: data.data,
+          key: data.key,
+          cb: data.cb
+        }
+      }
+    } else {
+      let has = false
+      for (const i in this.DBList) {
+        if (this.DBList[i].data === data.data && this.DBList[i].key === data.key) {
+          has = true
+          break
+        }
+      }
+      if (!has) {
+        this.DBList[this.index++] = {
+          data: data.data,
+          key: data.key,
+          cb: data.cb
+        }
+      }
+    }
     return this
   }
 
@@ -42,25 +77,24 @@ export class IndexedDB {
         _db.onsuccess = (event) => {
           this.db = (event.target as IDBOpenDBRequest).result
           if (this.hasDB) {
-            for (const index in this.DBList) {
-              this.db
-                .transaction('data', 'readonly')
-                .objectStore('data')
-                .get(Number(index)).onsuccess = (e) => {
+            for (const key in this.DBList) {
+              this.db.transaction('data', 'readonly').objectStore('data').get(key).onsuccess = (
+                res
+              ) => {
                 try {
-                  const data = (e.target as IDBRequest).result?.data
+                  const data = (res.target as IDBRequest).result
                   if (data) {
-                    this.DBList[index][0][this.DBList[index][1]] = data
+                    this.DBList[key].data[this.DBList[key].key] = data
                   }
                 } finally {
-                  this.setWatch(Number(index))
+                  this.setWatch(key)
                 }
               }
             }
           } else {
-            for (const index in this.DBList) {
-              this.updateDB(Number(index))
-              this.setWatch(Number(index))
+            for (const key in this.DBList) {
+              this.updateDB(key)
+              this.setWatch(key)
             }
           }
           resolve()
@@ -70,7 +104,7 @@ export class IndexedDB {
           this.db = (event.target as IDBOpenDBRequest).result
           if (!this.db.objectStoreNames.contains('data')) {
             this.hasDB = false
-            this.db.createObjectStore('data', { keyPath: 'id' })
+            this.db.createObjectStore('data')
           }
         }
       } catch (err) {
