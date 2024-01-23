@@ -75,20 +75,20 @@
               <Avatar
                 class="comment-avatar"
                 :src="character.game[comment.user].avatar"
-                @click.stop="openWindow('select', index)"
+                @click.stop="onAvatarClick(index)"
               />
             </template>
             <template v-else>
               <Avatar
                 class="comment-avatar"
                 :src="comment.user.avatar"
-                @click.stop="openWindow('select', index)"
+                @click.stop="onAvatarClick(index)"
               />
             </template>
             <div class="comment-content">
               <div
                 class="comment-name"
-                @click.stop="openWindow('select', index)"
+                @click.stop="onAvatarClick(index)"
               >
                 <span>
                   {{ checkOwner(comment.user) }}
@@ -156,7 +156,7 @@ import Window from '../Common/Window.vue'
 import Avatar from '../Common/Avatar.vue'
 import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
-import { setting, input } from '@/store/setting'
+import { input } from '@/store/setting'
 import { openWindow } from '@/assets/scripts/popup'
 import { nextTick, ref } from 'vue'
 import { character } from '@/store/character'
@@ -238,8 +238,7 @@ const onImageClick = () => {
 }
 
 const onAvatarClick = (id?: number) => {
-  setting.selectID = id
-  openWindow('select')
+  openWindow('select', id)
 }
 
 const windowDom = ref<InstanceType<typeof Window>>()
