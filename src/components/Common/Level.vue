@@ -4,7 +4,7 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 456 375"
-      width="15"
+      height="14"
     >
       <path
         fill-rule="evenodd"
@@ -37,6 +37,10 @@ defineProps<{
   background-color #666
   border-radius 10px
   gap 3px
+  color #000
+
+  svg
+    margin-top 1px
 
   span
     font-size 14px
