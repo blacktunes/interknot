@@ -6,6 +6,9 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    BUILD_TIME: Date.now()
+  },
   plugins: [
     vue({
       template: {
