@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import VuePictureCropper, { cropper } from 'vue-picture-cropper'
-import { imageCropper, cropperSetting } from './cropper'
+import { imageCropper, cropperSetting } from './'
 import { enterCallback, closeWindow } from '@/assets/scripts/popup'
 
 const props = defineProps<{

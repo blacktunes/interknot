@@ -1,10 +1,9 @@
 import CharacterSelectVue from '@/components/Popup/CharacterSelect.vue'
+import { cropperClose, cropperOpen } from '@/components/Popup/Cropper'
 import CropperVue from '@/components/Popup/Cropper/Cropper.vue'
 import MessageVue from '@/components/Popup/Message.vue'
-import { cropperOpen, cropperClose } from '@/components/Popup/Cropper/cropper'
+import { computed, markRaw, reactive, ref, type Component, type ComputedRef } from 'vue'
 import { setting } from '../../store/setting'
-import { imageCompress } from './images'
-import { computed, markRaw, ref, reactive, type Component, type ComputedRef } from 'vue'
 
 const components = {
   message: MessageVue,
@@ -20,25 +19,7 @@ const callbacks = {
     select: (id?: number) => {
       setting.selectID = id
     },
-    cropper: (config?: { aspectRatio?: number; maxWidth?: number }) => {
-      return new Promise<{ base64: string; raw: File }>((resolve) => {
-        const el = document.createElement('input')
-        el.type = 'file'
-        el.accept = 'image/*'
-        el.onchange = async () => {
-          if (el.files?.[0]) {
-            resolve({
-              base64: await cropperOpen(
-                await imageCompress(el.files[0], config?.maxWidth),
-                config?.aspectRatio
-              ),
-              raw: el.files[0]
-            })
-          }
-        }
-        el.click()
-      })
-    }
+    cropper: cropperOpen
   },
   close: {
     message: () => {

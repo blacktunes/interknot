@@ -7,7 +7,7 @@ import { setting } from '@/store/setting'
 new IndexedDB('zzz-interknot', '绳网')
   .add({ data: message, key: 'list', name: 'message' })
   .add({ data: character, key: 'custom', name: 'character' })
-  .save()
+  .next()
   .finally(() => {
     setting.loading = false
   })
