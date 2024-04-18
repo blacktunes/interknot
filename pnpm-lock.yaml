@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  html-to-image:
-    specifier: ^1.11.11
-    version: 1.11.11
   super-image-cropper:
     specifier: ^1.0.18
     version: 1.0.18
@@ -17,9 +14,9 @@ dependencies:
   vue-picture-cropper:
     specifier: ^0.7.0
     version: 0.7.0(vue@3.4.23)
-  wc-flow-layout:
-    specifier: ^0.0.5
-    version: 0.0.5
+  wc-waterfall:
+    specifier: ^0.1.2
+    version: 0.1.2
 
 devDependencies:
   '@rushstack/eslint-patch':
@@ -2116,10 +2113,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /html-to-image@1.11.11:
-    resolution: {integrity: sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==}
-    dev: false
-
   /human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
@@ -3472,8 +3465,8 @@ packages:
       '@vue/shared': 3.4.23
       typescript: 5.4.5
 
-  /wc-flow-layout@0.0.5:
-    resolution: {integrity: sha512-RUjVz91jaSNsvs0IRgFD44vik0XaqfSXKPWfJgi0uE90TAypdAxb9NCeETa/BQYx/Ad6ESH7GRjfnysdXDeABw==}
+  /wc-waterfall@0.1.2:
+    resolution: {integrity: sha512-mbeUGqHDWVAmlbtrYLTiTZbOrCd38vQLzmUgjDifDTeqlcmngAZVB5fSyGS/XUVVFfxPVDJeGS+gOdHRx6IOqw==}
     dev: false
 
   /wcwidth@1.0.1:

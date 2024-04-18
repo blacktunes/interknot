@@ -13,11 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "html-to-image": "^1.11.11",
     "super-image-cropper": "^1.0.18",
     "vue": "^3.4.21",
     "vue-picture-cropper": "^0.7.0",
-    "wc-flow-layout": "^0.0.5"
+    "wc-waterfall": "^0.1.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.10.0",

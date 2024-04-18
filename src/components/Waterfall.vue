@@ -1,6 +1,6 @@
 <template>
   <div class="waterfall">
-    <wc-flow-layout
+    <wc-waterfall
       :gap="20"
       :cols="cols"
       class="waterfall"
@@ -13,7 +13,7 @@
         @click="openWindow('message', item.id)"
         @delete="handelDelete(item.id)"
       />
-    </wc-flow-layout>
+    </wc-waterfall>
     <div
       class="empty-list"
       v-else
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import 'wc-flow-layout'
+import 'wc-waterfall'
 import Card from './Waterfall/Card.vue'
 import { computed, ref } from 'vue'
 import { getMessageIndex, message } from '@/store/message'
