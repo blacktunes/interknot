@@ -30,7 +30,7 @@
         ></path>
       </svg>
       <div class="text">
-        <span class="default-text">EWW.INTERKNOW.INK</span>
+        <span class="default-text">EWW.INTERKNOT.INK</span>
         <span class="hover-text ellipsis">https://github.com/blacktunes/interknot</span>
       </div>
     </a>
@@ -56,6 +56,7 @@ const onNewMessageClick = () => {
     user: user.value,
     title: '点击修改标题',
     text: '点击修改内容',
+    view: 0,
     time,
     comments: []
   })
@@ -66,24 +67,23 @@ const onNewMessageClick = () => {
 
 <style lang="stylus" scoped>
 .header
-  overflow hidden
-  z-index 9
   position sticky
   top 0
-  background #000
+  z-index 9
   display flex
   align-items center
-  height 50px
   padding 10px 0
+  height 50px
+  background #000
 
   .link
-    overflow hidden
-    flex 1
-    box-sizing border-box
     display flex
+    flex 1
     align-items center
-    height 30px
+    overflow hidden
+    box-sizing border-box
     padding 0 20px
+    height 30px
     border-radius 15px
     background-color #131313
     color #404040
@@ -111,10 +111,10 @@ const onNewMessageClick = () => {
         position absolute
         top 0
         left 0
-        font-size 14px
-        font-weight bold
-        height 100%
         width 100%
+        height 100%
+        font-weight bold
+        font-size 14px
         line-height 100%
 
       .hover-text
@@ -125,55 +125,77 @@ const onNewMessageClick = () => {
     justify-content center
     align-items center
     box-sizing border-box
-    padding 0 10px
     margin-left 20px
+    padding 0 10px
     height 35px
-    background-color #000
     border 4px solid #313131
+    background-color #000
 
     .btn
       position relative
-      box-sizing border-box
       display flex
-      align-items center
       justify-content center
+      align-items center
+      box-sizing border-box
+      margin 0 10px
       width 80px
       height 100%
-      margin 0 10px
-      font-size 16px
       text-align center
       white-space nowrap
-      user-select none
+      font-size 16px
       cursor pointer
+      user-select none
 
       &:after
-        content '发帖'
         position absolute
         top 0
         left 0
+        display flex
+        justify-content center
+        align-items center
         width 100%
         height 100%
-        display flex
-        align-items center
-        justify-content center
         color #fff
+        content '发帖'
 
       &:hover
         &:before
-          content ''
           position absolute
-          top -5px
+          top -10px
           right -25px
-          bottom -5px
+          bottom -10px
           left -25px
           display flex
-          align-items center
           justify-content center
-          background-color #a3c101
+          align-items center
           border-radius 30px 10px 20px 30px
+          background-color #a3c101
+          content ''
+          animation button 1.5s alternate infinite
 
         &:after
           color #000
+
+@keyframes button
+  0%
+    background-color #a3c101
+    transform scale(1)
+
+  20%
+    transform scale(1.05)
+
+  40%
+    transform scale(1)
+
+  60%
+    transform scale(1.05)
+
+  80%
+    transform scale(1)
+
+  100%
+    background-color #fffa00
+    transform scale(1.05)
 
 @media screen and (min-width 500px)
   .menu

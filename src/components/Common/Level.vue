@@ -29,21 +29,21 @@ defineProps<{
 <style lang="stylus" scoped>
 .level
   display flex
-  align-items center
   justify-content center
-  height 15px
+  align-items center
   margin-top 3px
   padding 2px 10px
-  background-color #666
+  height 15px
   border-radius 10px
-  gap 3px
+  background-color #666
   color #000
+  gap 3px
 
   svg
     margin-top 1px
 
   span
+    font-weight bold
     font-size 14px
     font-family none
-    font-weight bold
 </style>

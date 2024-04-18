@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import VuePictureCropper, { cropper } from 'vue-picture-cropper'
 import { imageCropper, cropperSetting } from './'
-import { enterCallback, closeWindow } from '@/assets/scripts/popup'
+import { confirmCallback, closeWindow } from '@/assets/scripts/popup'
 
 const props = defineProps<{
   name: string
@@ -68,51 +68,51 @@ const onCropper = async () => {
   return true
 }
 
-enterCallback.cropper = onCropper
+confirmCallback.cropper = onCropper
 </script>
 
 <style lang="stylus" scoped>
 :deep(.vue--picture-cropper__wrap)
-  background url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC')
   display flex
   justify-content center
   align-items center
+  background url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC')
 
 .cropper
-  z-index 10
   position fixed
   top 0
   right 0
   bottom 0
   left 0
+  z-index 10
 
 .btn-list
-  display flex
-  justify-content center
   position fixed
-  gap 20px
   bottom 15px
   left 50%
+  display flex
+  justify-content center
   width auto
   transform translateX(-50%)
+  gap 20px
 
   .btn
-    flex-shrink 0
     display flex
+    flex-shrink 0
     justify-content center
     align-items center
     box-sizing border-box
     padding 5px 35px
-    background-color #000
-    border-radius 15px
     border 4px solid #313131
+    border-radius 15px
+    background-color #000
     color #fff
-    transition 0.2s
     cursor pointer
+    transition 0.2s
     user-select none
 
     &:hover
-      color #000
-      background-color #a3c101
       border-color #a3c101
+      background-color #a3c101
+      color #000
 </style>

@@ -1,4 +1,3 @@
-import { computed, reactive } from 'vue'
 import { setting } from './setting'
 
 const getAvatar = (name: string) => {

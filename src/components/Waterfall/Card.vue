@@ -4,6 +4,35 @@
     @contextmenu.prevent.stop="$emit('delete')"
   >
     <div class="image">
+      <div class="view">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="20"
+          height="20"
+          viewBox="0 0 512 512"
+        >
+          <circle
+            cx="256"
+            cy="256"
+            r="64"
+            fill="currentColor"
+          ></circle>
+          <path
+            d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96c-42.52 0-84.33 12.15-124.27 36.11c-40.73 24.43-77.63 60.12-109.68 106.07a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416c46.71 0 93.81-14.43 136.2-41.72c38.46-24.77 72.72-59.66 99.08-100.92a32.2 32.2 0 0 0-.1-34.76zM256 352a96 96 0 1 1 96-96a96.11 96.11 0 0 1-96 96z"
+            fill="currentColor"
+          ></path>
+        </svg>
+        <span
+          contenteditable
+          @click.stop
+          @keydown.enter.prevent.stop="blur($event)"
+          @keydown.escape.prevent.stop="blur($event)"
+          @blur="updateView"
+        >
+          {{ message.view }}
+        </span>
+      </div>
       <img
         v-if="message.image"
         :src="message.image"
@@ -62,23 +91,39 @@
 <script lang="ts" setup>
 import { character, defaultAvatar } from '@/store/character'
 
-defineProps<{
+const props = defineProps<{
   message: Message
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   (event: 'delete'): void
+  (event: 'view', num: number): void
 }>()
+
+const blur = (e: KeyboardEvent) => {
+  ;(e.target as HTMLInputElement).blur()
+}
+
+const updateView = (e: Event) => {
+  if (e.target) {
+    const num = Number((e.target as HTMLElement).innerText)
+    if (!Number.isNaN(num)) {
+      emit('view', num)
+    } else {
+      ;(e.target as HTMLElement).innerText = String(props.message.view)
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>
 .card
-  overflow hidden
   display flex
   flex-direction column
-  background-color #222
-  border-radius 20px 20px 5px 20px
+  overflow hidden
   border 5px solid #000
+  border-radius 20px 20px 5px 20px
+  background-color #222
   cursor pointer
   transition all 0.3s
 
@@ -89,9 +134,24 @@ defineEmits<{
       opacity 1
 
   .image
+    position relative
     overflow hidden
     width 100%
     background #333
+
+    .view
+      position absolute
+      top 5px
+      left 10px
+      display flex
+      align-items center
+      color #989898
+
+      span
+        margin-left 5px
+        font-weight bold
+        font-size 14px
+        font-family none
 
     img
       display block
@@ -99,19 +159,19 @@ defineEmits<{
       object-fit cover
 
   .content
-    padding 8px 10px 10px 10px
+    padding 8px 10px 10px
 
     .user
       position relative
 
       .avatar
         position absolute
-        left 0
         bottom 0
+        left 0
         width 45px
         height 45px
-        border-radius 50%
         border 3px solid #222
+        border-radius 50%
         background-color #a1a0a1
 
         img
@@ -122,34 +182,34 @@ defineEmits<{
 
       span
         display block
-        font-size 16px
-        color #5d5d5d
-        width calc(100% - 52px)
         margin-left 52px
         padding-bottom 6px
+        width calc(100% - 52px)
         border-bottom 2px solid rgba(90, 90, 90, 0.5)
+        color #989898
+        font-size 16px
         transform translateY(-2px)
 
     .title
-      margin 10px 0 8px 0
-      font-size 18px
+      margin 10px 0 8px
       color #fff
+      font-size 18px
 
     .text
-      font-size 14px
       color #8f8f8f
+      font-size 14px
 
   .del
-    display flex
-    align-items center
-    justify-content center
     position absolute
     top -15px
     right -15px
+    display flex
+    justify-content center
+    align-items center
     width 50px
     height 50px
-    background-color #000
     border-radius 50%
+    background-color #000
     opacity 0
     transition 0.3s
 

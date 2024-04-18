@@ -11,7 +11,8 @@
         :message="item"
         :key="index"
         @click="openWindow('message', item.id)"
-        @delete="handelDelete(item.id)"
+        @delete="handleDelete(item.id)"
+        @view="handleView(item.id, $event)"
       />
     </wc-waterfall>
     <div
@@ -30,7 +31,6 @@
 <script lang="ts" setup>
 import 'wc-waterfall'
 import Card from './Waterfall/Card.vue'
-import { computed, ref } from 'vue'
 import { getMessageIndex, message } from '@/store/message'
 import { openWindow } from '@/assets/scripts/popup'
 
@@ -54,13 +54,20 @@ setCols()
 
 window.onresize = setCols
 
-const handelDelete = (id: number) => {
+const handleDelete = (id: number) => {
   const flag = confirm('是否删除该帖？')
   if (flag) {
     const index = getMessageIndex(id)
     if (index !== -1) {
       message.list.splice(index, 1)
     }
+  }
+}
+
+const handleView = (id: number, num: number) => {
+  const index = getMessageIndex(id)
+  if (index !== -1) {
+    message.list[index].view = num
   }
 }
 </script>
@@ -74,14 +81,14 @@ const handelDelete = (id: number) => {
 
   .empty-list
     display flex
-    align-items center
-    justify-content center
     flex-direction column
+    justify-content center
+    align-items center
     width 100%
     height 80%
     color #666
-    font-size 20px
     text-align center
+    font-size 20px
     user-select none
 
     img

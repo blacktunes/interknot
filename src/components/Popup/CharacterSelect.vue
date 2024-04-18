@@ -31,7 +31,7 @@
           :class="{ highlight: item.id === highlightID }"
           :title="item.name"
           @click="onCharacterClick(item)"
-          @contextmenu.prevent="handelDelete(index)"
+          @contextmenu.prevent="handleDelete(index)"
         >
           <div class="avatar">
             <img
@@ -42,7 +42,7 @@
           <div class="name">{{ item.name }}</div>
           <div
             class="del"
-            @click.stop="handelDelete(index)"
+            @click.stop="handleDelete(index)"
           >
             <svg
               viewBox="0 0 1024 1024"
@@ -75,7 +75,6 @@
 import Window from '../Common/Window.vue'
 import { setting, input } from '@/store/setting'
 import { character } from '@/store/character'
-import { computed } from 'vue'
 import { currentMessage } from '@/store/message'
 import { closeWindow, openWindow } from '@/assets/scripts/popup'
 
@@ -148,7 +147,7 @@ const onAddClick = () => {
   }
 }
 
-const handelDelete = (index: number) => {
+const handleDelete = (index: number) => {
   const flag = confirm('是否删除该角色？')
   if (flag) {
     character.custom.splice(index, 1)
@@ -167,30 +166,30 @@ const handelDelete = (index: number) => {
   padding 0 15px !important
 
 .scroll-view
-  overflow scroll
   display flex
   flex-wrap wrap
   align-items flex-start
   align-content flex-start
-  width 100%
+  overflow scroll
   padding 10px 0
+  width 100%
 
   .character
-    overflow hidden
     position relative
-    box-sizing border-box
     display flex
+    flex-direction column
     justify-content center
     align-items center
-    flex-direction column
-    width 18%
-    padding 10px
+    overflow hidden
+    box-sizing border-box
     margin 1%
+    padding 10px
+    width 18%
     border 2px solid transparent
     border-radius 20px
-    user-select none
     cursor pointer
     transition 0.3s
+    user-select none
 
     &:hover
       border-color #a3c101
@@ -203,44 +202,45 @@ const handelDelete = (index: number) => {
 
     .avatar
       position relative
-      width 100%
-      padding-bottom 100%
       box-sizing border-box
+      padding-bottom 100%
+      width 100%
       border 2px solid #999
       border-radius 50%
 
-      img, svg
+      img
+      svg
         position absolute
         top 0
         left 0
         width 100%
         height 100%
-        object-fit contain
-        background-color #666
         border-radius 50%
+        background-color #666
+        object-fit contain
 
     .name
-      height 20px
-      margin-top 10px
-      font-size 16px
-      text-align center
-      color #fff
       overflow hidden
+      margin-top 10px
+      width 100%
+      height 20px
+      color #fff
+      text-align center
       text-overflow ellipsis
       white-space nowrap
-      width 100%
+      font-size 16px
 
     .del
-      display flex
-      align-items center
-      justify-content center
       position absolute
       top -15px
       right -15px
+      display flex
+      justify-content center
+      align-items center
       width 50px
       height 50px
-      background-color #000
       border-radius 50%
+      background-color #000
       opacity 0
       transition 0.3s
 
@@ -251,30 +251,30 @@ const handelDelete = (index: number) => {
         opacity 1
 
 .add
-  display flex
-  justify-content center
-  align-items center
   position absolute
   bottom 10px
   left 50%
+  display flex
+  justify-content center
+  align-items center
   box-sizing border-box
-  height 35px
   padding 5px 15px
-  background-color #000
-  border-radius 15px
+  height 35px
   border 4px solid #313131
+  border-radius 15px
+  background-color #000
   color #fff
-  transform translate(-50%, 50%)
   opacity 0
-  transition 0.2s
   cursor pointer
+  transition 0.2s
+  transform translate(-50%, 50%)
 
   &:hover
+    border-color #a3c101
+    background-color #a3c101
+    color #000
     opacity 1
     transform translate(-50%, 0)
-    color #000
-    background-color #a3c101
-    border-color #a3c101
 
 .highlight
   background-color #a3c101

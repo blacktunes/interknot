@@ -10,6 +10,7 @@ type Message = MessageBase & {
   title: string
   image?: string
   time: number
+  view: number
   comments: MessageBase[]
 }
 

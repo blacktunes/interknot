@@ -1,4 +1,3 @@
-import { computed, reactive } from 'vue'
 import { setting } from './setting'
 
 export const getMessageIndex = (id: number) => {
@@ -15,38 +14,38 @@ export const currentMessage = computed(() => {
   return undefined
 })
 
+watch(
+  () => setting.messageID,
+  () => {
+    if (currentMessage.value) {
+      currentMessage.value.view += 1
+    }
+  }
+)
+
 export const message = reactive<{
   list: Message[]
 }>({
   list: [
     {
       id: 1,
-      user: 0,
-      image:
-        'https://patchwiki.biligame.com/images/zzz/thumb/8/82/k8yzxifp56twcq6fbux1c1ryyxs8rpn.jpg/750px-%E4%BA%BA%E7%89%A9%E6%B5%B7%E6%8A%A5-%E7%8C%AB%E5%AE%AB%E5%8F%88%E5%A5%88.jpg',
-      title: '[测试]这是测试标题',
-      text: '这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容这是测试内容',
+      user: 1,
+      view: 0,
+      title: '[绳网]使用说明',
+      text: '其实没啥好介绍的，总之这是内容，可以修改',
       time: 1,
       comments: [
         {
           user: 1,
-          text: '这是回复这是回复这是回复这是回复这是回复'
+          text: '然后这是回复，也可以修改'
         },
         {
-          user: 0,
-          text: '这是回复这是回复这是回复这是回复这是回复'
+          user: 1,
+          text: '点击头像或昵称可以更换账号'
         },
         {
-          user: 0,
-          text: '这是回复这是回复这是回复这是回复这是回复'
-        },
-        {
-          user: 0,
-          text: '这是回复这是回复这是回复这是回复这是回复'
-        },
-        {
-          user: 0,
-          text: '这是回复这是回复这是回复这是回复这是回复'
+          user: 1,
+          text: '点击左边的图片可以重新上传图片'
         }
       ]
     }

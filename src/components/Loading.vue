@@ -15,17 +15,17 @@ import { setting } from '@/store/setting'
 
 <style lang="stylus" scoped>
 .loading
-  z-index 999
   position fixed
   top 0
   right 0
   bottom 0
   left 0
+  z-index 999
   display flex
-  align-items center
   justify-content center
-  color #fff
+  align-items center
   background-color #fff
+  color #fff
   user-select none
 
   .loading__animation
@@ -35,8 +35,8 @@ import { setting } from '@/store/setting'
     width 300px
     height 85px
     background-image url('@/assets/images/loading-sprite.webp')
-    background-size 100% 3000%
     background-position 0 0
+    background-size 100% 3000%
     animation loadingLoop 0.5s steps(30) infinite forwards
 
 @keyframes loadingLoop

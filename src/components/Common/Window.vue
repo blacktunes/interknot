@@ -48,15 +48,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-
 withDefaults(
   defineProps<{
     title?: string
     height?: string
   }>(),
   {
-    height: '50%',
+    height: '50%'
   }
 )
 
@@ -71,10 +69,10 @@ defineExpose({ contentDom })
 
 <style lang="stylus" scoped>
 .window-view
-  z-index 10
   position fixed
   top 0
   left 0
+  z-index 10
   display flex
   justify-content center
   align-items center
@@ -84,17 +82,17 @@ defineExpose({ contentDom })
   .window
     position relative
     overflow hidden
-    width 70%
     max-width 1000px
-    background-color #000
-    background-clip padding-box
+    width 70%
     border 4px solid rgba(100, 100, 100, 0.2)
     border-radius 20px 5px 20px 20px
+    background-color #000
+    background-clip padding-box
 
     &:before
-      content ''
       display block
       margin-top v-bind(height)
+      content ''
 
     .header
       position absolute
@@ -103,9 +101,9 @@ defineExpose({ contentDom })
       display flex
       align-items center
       box-sizing border-box
+      padding 10px 20px
       width 100%
       height 70px
-      padding 10px 20px
 
       .title
         color #fff

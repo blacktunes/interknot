@@ -61,7 +61,7 @@
           @keydown.enter.prevent.stop="blur"
           @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
           @focus="reset = false"
-          @blur="update($event, 'text', '暂无内容')"
+          @blur="update($event, 'text', '无内容')"
         >
           {{ currentMessage.text }}
         </div>
@@ -86,11 +86,8 @@
               />
             </template>
             <div class="comment-content">
-              <div
-                class="comment-name"
-                @click.stop="onAvatarClick(index)"
-              >
-                <span>
+              <div class="comment-name">
+                <span @click.stop="onAvatarClick(index)">
                   {{ checkOwner(comment.user) }}
                   <template v-if="typeof comment.user === 'number'">
                     {{ character.game[comment.user].name }}
@@ -99,7 +96,25 @@
                     {{ comment.user.name }}
                   </template>
                 </span>
-                <div class="floor">{{ index + 1 }}F</div>
+                <div
+                  class="floor"
+                  @click="dekComment(index)"
+                >
+                  <span>{{ index + 1 }}F</span>
+                  <svg
+                    class="del"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M328.777143 377.904762l31.719619 449.657905h310.662095l31.695238-449.657905h73.264762L744.106667 832.707048a73.142857 73.142857 0 0 1-72.94781 67.998476H360.496762a73.142857 73.142857 0 0 1-72.94781-68.022857L255.488 377.904762h73.289143z m159.207619 22.649905v341.333333h-73.142857v-341.333333h73.142857z m133.729524 0v341.333333h-73.142857v-341.333333h73.142857zM146.285714 256h731.428572v73.142857H146.285714v-73.142857z m518.265905-121.904762v73.142857h-292.571429v-73.142857h292.571429z"
+                      fill="#fff"
+                    ></path>
+                  </svg>
+                </div>
               </div>
               <div
                 class="comment-text"
@@ -107,7 +122,7 @@
                 @keydown.enter.prevent.stop="blur"
                 @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
                 @focus="reset = false"
-                @blur="updateComment($event, index)"
+                @blur="updateComment($event, index, '无回复')"
               >
                 {{ comment.text }}
               </div>
@@ -158,7 +173,6 @@ import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
 import { input } from '@/store/setting'
 import { openWindow } from '@/assets/scripts/popup'
-import { nextTick, ref } from 'vue'
 import { character } from '@/store/character'
 
 const props = defineProps<{
@@ -196,16 +210,16 @@ const checkOwner = (user: number | Character) => {
   }
 }
 
-let reset = false
+const reset = ref(false)
 const blur = (e: KeyboardEvent) => {
   ;(e.target as HTMLElement).blur()
 }
 
-const update = (e: Event, key: 'title' | 'text', defaultText = '空') => {
+const update = (e: Event, key: 'title' | 'text', defaultText = 'Null') => {
   if (!currentMessage.value) return
   const target = e.target as HTMLElement
 
-  if (reset) {
+  if (reset.value) {
     target.innerText = currentMessage.value[key]
     return
   }
@@ -215,11 +229,11 @@ const update = (e: Event, key: 'title' | 'text', defaultText = '空') => {
   currentMessage.value[key] = target.innerText = target.innerText || defaultText
 }
 
-const updateComment = (e: Event, key: number, defaultText = '空') => {
+const updateComment = (e: Event, key: number, defaultText = 'Null') => {
   if (!currentMessage.value) return
   const target = e.target as HTMLElement
 
-  if (reset) {
+  if (reset.value) {
     target.innerText = currentMessage.value.comments[key].text
     return
   }
@@ -270,6 +284,11 @@ const sendComment = () => {
     }
   })
 }
+
+const dekComment = (id: number) => {
+  if (!currentMessage.value) return
+  currentMessage.value.comments.splice(id, 1)
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -285,8 +304,8 @@ show()
 .user
   display flex
   align-items center
-  user-select none
   cursor pointer
+  user-select none
 
   .name
     display flex
@@ -294,23 +313,23 @@ show()
     margin-left 10px
 
     span
+      height 20px
       color #a1a0a1
       font-size 18px
-      height 20px
 
     .level
       margin-right auto
 
 .image
-  overflow hidden
   display flex
-  align-items center
   justify-content center
+  align-items center
+  overflow hidden
   box-sizing border-box
-  height 100%
   width 30%
-  border-radius 20px
+  height 100%
   border 3px solid rgba(100, 100, 100, 0.5)
+  border-radius 20px
   cursor pointer
 
   img
@@ -321,30 +340,38 @@ show()
 
 .message
   display flex
+  flex 1
   flex-direction column
   overflow-x hidden
   overflow-y scroll
-  flex 1
   box-sizing border-box
-  width 100%
-  padding 20px 10px 20px 30px
   margin-left 20px
+  padding 20px 10px 20px 30px
+  width 100%
   border-radius 20px
   background #000
 
   .title
     margin-bottom 10px
-    color #fff
     width 100%
+    color #fff
     word-break break-all
 
   .text
-    color #b2b0b3
     margin-bottom 30px
+    color #b2b0b3
 
   .comment
     display flex
     margin-top 5px
+
+    &:hover
+      .comment-content .comment-name .floor
+        span
+          opacity 0
+
+        .del
+          opacity 1
 
     &:last-child
       margin-bottom 25px
@@ -362,8 +389,8 @@ show()
 
       .comment-name
         display flex
-        align-items center
         justify-content space-between
+        align-items center
         margin-bottom 5px
 
         span
@@ -371,46 +398,54 @@ show()
           cursor pointer
 
       .floor
+        position relative
         display flex
         justify-content center
         align-items center
-        height 20px
         padding 0 12px 0 10px
-        color #000
-        font-family none
-        font-size 14px
-        font-weight bold
-        background-color #615f62
+        height 20px
         border-radius 0 10px 10px 10px
+        background-color #615f62
+        color #000
+        font-weight bold
+        font-size 14px
+        cursor pointer
         user-select none
+
+        span
+          font-family none
+
+        .del
+          position absolute
+          opacity 0
 
       .comment-text
         color #959295
 
   .empty-comment
-    text-align right
-    padding-top 10px
     margin-top auto
+    padding-top 10px
     color #666
+    text-align right
     transform translateY(30%)
 
 .input
-  box-sizing border-box
   position absolute
   right 20px
   bottom 20px
   display flex
   justify-content center
   align-items center
-  height 40px
+  box-sizing border-box
   width calc(70% - 82.5px)
+  height 40px
   border 4px solid #313131
   border-radius 20px
   background-color #000
   font-size 16px
   opacity 0
-  transform translateY(50%)
   transition transform 0.15s linear, opacity 0.2s
+  transform translateY(50%)
 
   .input-avatar
     position absolute
@@ -418,42 +453,43 @@ show()
     cursor pointer
 
   input
-    box-sizing border-box
     flex 1
-    color #fff
-    outline none
-    border none
+    overflow hidden
+    box-sizing border-box
+    padding 0 10px 0 50px
     width 100px
     height 100%
-    padding 0 10px 0 50px
-    overflow hidden
-    white-space nowrap
-    text-overflow ellipsis
+    outline none
+    border none
     background-color transparent
+    color #fff
+    text-overflow ellipsis
+    white-space nowrap
 
   .btn
-    flex-shrink 0
     display flex
+    flex-shrink 0
     justify-content center
     align-items center
+    margin 0
+    padding 0 10px
     width 70px
     height 100%
-    padding 0 10px
-    margin 0
-    border none
     outline none
+    border none
     border-radius 20px
+    background-color transparent
     color #fff
     text-align center
-    background-color transparent
-    user-select none
     cursor pointer
+    user-select none
 
     &:hover
-      color #000
       background-color #a3c101
+      color #000
 
-  &:hover, &:focus-within
+  &:hover
+  &:focus-within
     show()
 
 .show
@@ -464,8 +500,8 @@ show()
   cursor default !important
 
   &:hover
-    color #666 !important
     background-color transparent !important
+    color #666 !important
 
 @media screen and (max-width 700px) and (max-aspect-ratio 1 / 1)
   :deep(.content)
@@ -473,29 +509,29 @@ show()
 
   .image
     flex-shrink 0
+    max-height 110vw
     width 100%
     height auto
-    max-height 110vw
 
   .message
-    overflow unset
     flex 1 0 0%
-    width 100%
+    overflow unset
     margin-top 20px
     margin-left unset
+    width 100%
 
     .comment
       &:last-child
         margin-bottom 0
 
   .input
-    left 0
     bottom 0
+    left 0
     width 100%
+    border 4px solid #000
+    border-radius 10px
     opacity 1
     transform translateY(0)
-    border-radius 10px
-    border 4px solid #000
 
     .input-avatar
       left 15px

@@ -1,4 +1,3 @@
-import { reactive } from 'vue'
 import { character } from './character'
 
 export const setting = reactive<{

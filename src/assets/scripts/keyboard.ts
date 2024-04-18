@@ -1,14 +1,14 @@
 import { setting } from '@/store/setting'
-import { closeCurrentWindow, currentCallback } from './popup'
+import { closeCurrentComponent, currentComponentCallback } from './popup'
 
 document.addEventListener('keydown', async (e) => {
   if (setting.loading) return
   switch (e.key) {
     case 'Enter':
-      currentCallback()
+      currentComponentCallback()
       return
     case 'Escape':
-      closeCurrentWindow()
+      closeCurrentComponent()
       return
   }
 })
