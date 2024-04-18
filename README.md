@@ -3,7 +3,44 @@
 
 ![预览图](readme/screenshot.webp)
 
-头像和默认图片暂时使用米游社[不会打架的娃](https://www.miyoushe.com/zzz/article/22704186?crawler=bingbot)绘制的邦布表情包
+<h4 align="center">
+  <a href="https://interknot.shenmedouyou.top/">https://interknot.shenmedouyou.top/</a>
+</h4>
+
+## 素材来源
+
+<table>
+  <tr>
+    <td>
+      <b>素材</b>
+    </td>
+    <td>
+      <b>来源</b>
+    </td>
+    <td><b>备注</b></td>
+  </tr>
+  <tr>
+    <td>默认头像和默认图片</td>
+    <td>米游社<a href="https://www.miyoushe.com/zzz/article/22704186?crawler=bingbot">不会打架的娃</a></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>SVG图标</td>
+    <td>
+      <a href="https://www.iconfont.cn/">Iconfont</a> / <a href="https://xicons.org/#/">xicons</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>字体</td>
+    <td>
+      猫啃什锦黑
+    </td>
+    <td>
+      CDN为<a href="https://chinese-font.netlify.app/fonts/mksjh/maokenassortedsans1_30/">中文网字计划</a>
+    </td>
+  </tr>
+</table>
 
 ## 相关项目
 - 崩坏:星穹铁道短信生成网站
