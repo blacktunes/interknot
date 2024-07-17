@@ -7,22 +7,22 @@
     <Waterfall />
     <div
       class="mask"
-      v-if="getCurrentComponent()"
+      v-if="popupManager.currentComponent"
     ></div>
     <Component
-      v-for="(item, key) in popupComponents"
+      v-for="(item, key) in popupManager.components"
       :index="item.index"
       :name="key"
       :is="item.compontnt"
       :key="key"
-      @close="closeWindow"
+      @close="popupManager.close"
     />
   </div>
   <Loading />
 </template>
 
 <script lang="ts" setup>
-import { popupComponents, closeWindow, getCurrentComponent } from './assets/scripts/popup'
+import { popupManager } from './assets/scripts/popup'
 import Header from './components/Header.vue'
 import Waterfall from './components/Waterfall.vue'
 import Loading from './components/Loading.vue'

@@ -124,9 +124,9 @@ defineExpose({ contentDom })
       bottom 5px
       left 5px
       display flex
-      padding 20px 15px
+      padding 30px 15px
       border-radius 5px
-      background-color #222
+      background-color #111
 
 @media screen and (min-width 500px) and (max-width 1000px)
   .window-view

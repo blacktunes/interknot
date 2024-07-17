@@ -4,7 +4,7 @@
       :src="user.avatar"
       :size="40"
       style="margin: 0 10px; cursor: pointer"
-      @click="openWindow('select')"
+      @click="popupManager.open('select')"
     />
     <a
       class="link"
@@ -47,7 +47,7 @@
 import { message } from '@/store/message'
 import Avatar from './Common/Avatar.vue'
 import { user } from '@/store/character'
-import { openWindow } from '@/assets/scripts/popup'
+import { popupManager } from '@/assets/scripts/popup'
 
 const onNewMessageClick = () => {
   const time = Date.now()
@@ -61,7 +61,7 @@ const onNewMessageClick = () => {
     comments: []
   })
 
-  openWindow('message', time)
+  popupManager.open('message', time)
 }
 </script>
 

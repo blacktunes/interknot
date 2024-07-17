@@ -66,7 +66,7 @@
         </template>
       </div>
       <div class="title">{{ message.title }}</div>
-      <div class="text ellipsis">{{ message.text }}</div>
+      <div class="text ellipsis">{{ text }}</div>
     </div>
     <div
       class="del"
@@ -99,6 +99,8 @@ const emit = defineEmits<{
   (event: 'delete'): void
   (event: 'view', num: number): void
 }>()
+
+const text = computed(() => (props.message.text.split('<br>')[0]))
 
 const blur = (e: KeyboardEvent) => {
   ;(e.target as HTMLInputElement).blur()
@@ -145,7 +147,7 @@ const updateView = (e: Event) => {
       left 10px
       display flex
       align-items center
-      color #989898
+      color #fff
 
       span
         margin-left 5px

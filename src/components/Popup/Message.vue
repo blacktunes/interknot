@@ -58,14 +58,12 @@
         <div
           class="text"
           contenteditable
-          @keydown.enter.prevent.stop="blur"
           @keydown.escape.prevent.stop="[(reset = true), blur($event)]"
           @focus="reset = false"
           @blur="update($event, 'text', '无内容')"
-        >
-          {{ currentMessage.text }}
-        </div>
-        <div v-if="currentMessage.comments.length > 0">
+          v-dompurify-html="currentMessage.text"
+        ></div>
+        <div class="comment-list">
           <div
             class="comment"
             v-for="(comment, index) in currentMessage.comments"
@@ -111,7 +109,7 @@
                   >
                     <path
                       d="M328.777143 377.904762l31.719619 449.657905h310.662095l31.695238-449.657905h73.264762L744.106667 832.707048a73.142857 73.142857 0 0 1-72.94781 67.998476H360.496762a73.142857 73.142857 0 0 1-72.94781-68.022857L255.488 377.904762h73.289143z m159.207619 22.649905v341.333333h-73.142857v-341.333333h73.142857z m133.729524 0v341.333333h-73.142857v-341.333333h73.142857zM146.285714 256h731.428572v73.142857H146.285714v-73.142857z m518.265905-121.904762v73.142857h-292.571429v-73.142857h292.571429z"
-                      fill="#fff"
+                      fill="currentColor"
                     ></path>
                   </svg>
                 </div>
@@ -129,12 +127,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="empty-comment"
-          v-else
-        >
-          暂时没有人回复楼主···
-        </div>
+        <div class="no-more">- 已无更多评论 -</div>
       </div>
       <template #footer>
         <form
@@ -172,7 +165,7 @@ import Avatar from '../Common/Avatar.vue'
 import Level from '../Common/Level.vue'
 import { currentMessage } from '@/store/message'
 import { input } from '@/store/setting'
-import { openWindow } from '@/assets/scripts/popup'
+import { popupManager } from '@/assets/scripts/popup'
 import { character } from '@/store/character'
 
 const props = defineProps<{
@@ -219,14 +212,15 @@ const update = (e: Event, key: 'title' | 'text', defaultText = 'Null') => {
   if (!currentMessage.value) return
   const target = e.target as HTMLElement
 
+  let value = target.innerText.replace(/\n/g, '<br>')
   if (reset.value) {
-    target.innerText = currentMessage.value[key]
+    value = currentMessage.value[key]
     return
   }
 
-  if (target.innerText === currentMessage.value[key]) return
+  if (value === currentMessage.value[key]) return
 
-  currentMessage.value[key] = target.innerText = target.innerText || defaultText
+  currentMessage.value[key] = value = value || defaultText
 }
 
 const updateComment = (e: Event, key: number, defaultText = 'Null') => {
@@ -244,7 +238,7 @@ const updateComment = (e: Event, key: number, defaultText = 'Null') => {
 }
 
 const onImageClick = () => {
-  openWindow('cropper').then(({ base64 }) => {
+  popupManager.open('cropper').then(({ base64 }) => {
     if (currentMessage.value) {
       currentMessage.value.image = base64
     }
@@ -252,7 +246,7 @@ const onImageClick = () => {
 }
 
 const onAvatarClick = (id?: number) => {
-  openWindow('select', id)
+  popupManager.open('select', id)
 }
 
 const windowDom = ref<InstanceType<typeof Window>>()
@@ -346,24 +340,33 @@ show()
   overflow-y scroll
   box-sizing border-box
   margin-left 20px
-  padding 20px 10px 20px 30px
+  padding 20px 10px 20px 20px
   width 100%
   border-radius 20px
   background #000
+  mask-image linear-gradient(to bottom, transparent, #000 30px, #000, #000 calc(100% - 30px), transparent)
+  mask-size 100% 100%
+  mask-position 0 0, 100% 0
+  mask-repeat no-repeat, no-repeat
 
   .title
+    box-sizing border-box
     margin-bottom 10px
+    padding 2px
     width 100%
     color #fff
     word-break break-all
 
   .text
-    margin-bottom 30px
+    box-sizing border-box
+    margin-bottom 20px
+    padding 2px
     color #b2b0b3
 
   .comment
     display flex
-    margin-top 5px
+    padding-top 10px
+    border-top 3px solid #1e1c1f
 
     &:hover
       .comment-content .comment-name .floor
@@ -373,8 +376,8 @@ show()
         .del
           opacity 1
 
-    &:last-child
-      margin-bottom 25px
+    &:first-child
+      border-top none
 
     .comment-avatar
       width 42px
@@ -385,13 +388,12 @@ show()
       flex 1
       margin 0 10px
       padding-bottom 10px
-      border-bottom 4px solid #1e1c1f
 
       .comment-name
         display flex
         justify-content space-between
         align-items center
-        margin-bottom 5px
+        margin 0 0 2px 2px
 
         span
           color #fff
@@ -406,28 +408,30 @@ show()
         height 20px
         border-radius 0 10px 10px 10px
         background-color #615f62
-        color #000
         font-weight bold
         font-size 14px
         cursor pointer
         user-select none
 
         span
+          color #000
           font-family none
 
         .del
           position absolute
+          color #000
           opacity 0
 
       .comment-text
+        box-sizing border-box
+        padding 2px
         color #959295
 
-  .empty-comment
-    margin-top auto
-    padding-top 10px
+  .no-more
+    padding-top 15px
+    border-top 3px solid #1e1c1f
     color #666
-    text-align right
-    transform translateY(30%)
+    text-align center
 
 .input
   position absolute

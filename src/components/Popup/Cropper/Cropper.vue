@@ -2,20 +2,20 @@
   <Transition name="fade">
     <div
       class="cropper"
-      v-if="props.index !== -1 && cropperSetting.img"
+      v-if="props.index !== -1 && data.img"
       :style="{ zIndex: 10 + index }"
       @click.stop
     >
       <VuePictureCropper
-        :img="cropperSetting.img"
+        :img="data.img"
         :options="{
           viewMode: 1,
           movable: false,
           scalable: false,
           zoomOnWheel: false,
-          autoCrop: cropperSetting.aspectRatio !== undefined,
+          autoCrop: data.aspectRatio !== undefined,
           autoCropArea: 1,
-          aspectRatio: cropperSetting.aspectRatio
+          aspectRatio: data.aspectRatio
         }"
       />
       <div class="btn-list">
@@ -37,9 +37,9 @@
 </template>
 
 <script lang="ts" setup>
+import { popupManager } from '@/assets/scripts/popup'
 import VuePictureCropper, { cropper } from 'vue-picture-cropper'
-import { imageCropper, cropperSetting } from './'
-import { confirmCallback, closeWindow } from '@/assets/scripts/popup'
+import { callback, data, imageCropper } from './data'
 
 const props = defineProps<{
   name: string
@@ -55,20 +55,20 @@ const close = () => {
 }
 
 const onCropper = async () => {
-  if (cropper && cropperSetting.fn) {
-    cropperSetting.fn(
+  if (cropper && data.fn) {
+    data.fn(
       (await imageCropper.crop({
         cropperInstance: cropper,
-        src: cropperSetting.img,
+        src: data.img,
         outputType: 'base64'
       })) as string
     )
   }
-  closeWindow('cropper')
+  popupManager.close('cropper')
   return true
 }
 
-confirmCallback.cropper = onCropper
+callback.confirm = onCropper
 </script>
 
 <style lang="stylus" scoped>

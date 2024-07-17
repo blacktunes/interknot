@@ -10,7 +10,7 @@
         v-for="(item, index) in list"
         :message="item"
         :key="index"
-        @click="openWindow('message', item.id)"
+        @click="popupManager.open('message', item.id)"
         @delete="handleDelete(item.id)"
         @view="handleView(item.id, $event)"
       />
@@ -32,7 +32,7 @@
 import 'wc-waterfall'
 import Card from './Waterfall/Card.vue'
 import { getMessageIndex, message } from '@/store/message'
-import { openWindow } from '@/assets/scripts/popup'
+import { popupManager } from '@/assets/scripts/popup'
 
 const list = computed(() => [...message.list].sort((a, b) => b.time - a.time))
 

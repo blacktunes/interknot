@@ -76,7 +76,7 @@ import Window from '../Common/Window.vue'
 import { setting, input } from '@/store/setting'
 import { character } from '@/store/character'
 import { currentMessage } from '@/store/message'
-import { closeWindow, openWindow } from '@/assets/scripts/popup'
+import { popupManager } from '@/assets/scripts/popup'
 
 const props = defineProps<{
   name: string
@@ -125,7 +125,7 @@ const onCharacterClick = (item: Character) => {
   } else {
     setting.userID = item.id
   }
-  closeWindow('select')
+  popupManager.close('select')
 }
 
 const onAddClick = () => {
@@ -133,7 +133,7 @@ const onAddClick = () => {
   if (name !== null && name.length > 0) {
     const level = Number(prompt('角色等级？'))
 
-    openWindow('cropper', {
+    popupManager.open('cropper', {
       aspectRatio: 1,
       maxWidth: 500
     }).then(({ base64 }) => {

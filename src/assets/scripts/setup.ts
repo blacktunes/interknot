@@ -1,10 +1,10 @@
-import { IndexedDB } from './indexedDB'
+import { createDatabase } from 'star-rail-vue'
 import { urlToBase64 } from './images'
 import { message } from '@/store/message'
 import { character } from '@/store/character'
 import { setting } from '@/store/setting'
 
-new IndexedDB('zzz-interknot', '绳网')
+createDatabase('zzz-interknot', '绳网')
   .add({ data: message, key: 'list', name: 'message' })
   .add({ data: character, key: 'custom', name: 'character' })
   .next()
